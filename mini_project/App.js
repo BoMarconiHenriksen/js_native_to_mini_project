@@ -1,21 +1,27 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
+import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { AppLoading, Asset, Font, Icon } from 'expo';
+import Tabs from './navigation/TabNavigator';
+import loginfacade from './facades/loginFacade'
 export default class App extends React.Component {
+ 
+
   render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
-    );
+
+      return (
+        <View style={styles.container}>
+          
+          <Tabs />
+        </View>
+      );
+    }
   }
-}
+
+ 
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#F0F7D4',
   },
 });
