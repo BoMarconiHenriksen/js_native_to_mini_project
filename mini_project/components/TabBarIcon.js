@@ -9,7 +9,7 @@ export default class TabBarIcon extends React.Component {
       <Icon.Ionicons
         name={this.props.name}
         size={26}
-        style={{ marginBottom: -3 }}
+        style={{ marginTop: -10 }}
         color="black"
       />
     );

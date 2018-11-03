@@ -7,7 +7,7 @@ import { Constants, Location, Permissions } from 'expo';
 export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { loggedIn: false, userName: "", password: "", latitude:0, longitude:0, distance: 1000 }
+    this.state = { text: "Waiting", loggedIn: false, userName: "", password: "", latitude:0, longitude:0, distance: 1000, location:[] }
 
   }
   static navigationOptions = {
@@ -33,11 +33,17 @@ export default class LoginScreen extends React.Component {
       }
 
       const location = await Location.getCurrentPositionAsync({});
-      console.log(location.coords.latitude)
+      this.setState({location:location})
       this.setState({ latitude:location.coords.latitude, longitude:location.coords.longitude });
     };
   
     render() {
+      let text = 'Waiting..';
+      if (this.state.errorMessage) {
+        text = this.state.errorMessage;
+      } else if (this.state.location) {
+       text='Your position: Latitude: '+this.state.latitude+' Longitude: '+this.state.longitude
+      }
       return (
         <Container style={{ alignItems: 'center', justifyContent: 'center', padding: 50 }}>
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -49,6 +55,7 @@ export default class LoginScreen extends React.Component {
 
             }} />
             <Text style={{ fontSize: 36 }}>Login</Text>
+            <Text>{text}</Text>
           </View>
 
 
@@ -61,11 +68,13 @@ export default class LoginScreen extends React.Component {
             <TextInput style={{ width: 200, fontSize: 18 }} placeholder='username' onChangeText={(username) => this.setState({ userName: username })} value={this.state.userName} />
             <TextInput style={{ width: 200, fontSize: 18 }} placeholder='password' onChangeText={(password) => this.setState({ password: password })} value={this.state.password} />
             
-            {/* <TextInput  style={styles.TextInputStyle} keyboardType={'numeric'} value={this.state.distance} onChange={distance => this.setState({distance:distance})} /> */}
+          <TextInput   keyboardType={'numeric'} placeholder='500' onChangeText={(distance) => this.setState({distance:Number(distance)})} value={this.state.distance} /> 
             <Button title="get location" onPress={() => this._getLocationAsync()} />
-            <Button title="submit" onPress={() => loginfacade.login(this.state.userName, this.state.password, this.state.latitude,this.state.longitude, 1000)} />
+            <Text></Text>
+            <Button title="submit" onPress={() => loginfacade.login(this.state.userName, this.state.password, this.state.latitude,this.state.longitude, this.state.distance )} />
           </View>
         </Container>
+
       ); }
   }
 
