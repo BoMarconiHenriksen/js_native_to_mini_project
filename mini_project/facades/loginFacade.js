@@ -7,8 +7,8 @@ const URL = 'https://miniprojectfsjsbebop.herokuapp.com/api/';
 
 class loginFacade extends Component {
 
-    login = (username, password, latitude, longitude, distance) => {
-        fetch(URL + "login", {
+    login =async (username, password, latitude, longitude, distance) => {
+       await fetch(URL + "login", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ class loginFacade extends Component {
             }),
         }).then((response) => response.json())
             .then((responseJson) => {
-                console.log(responseJson)
+               console.log(responseJson.friends)
                 return responseJson;
             })
             .catch((error) => {
