@@ -1,11 +1,14 @@
 {
   "expo": {
-    "name": "mini_project",
+    "name": "friendfinderBB",
     "description": "This project is really great.",
-    "slug": "mini_project",
+    "slug": "friendfinderBB",
     "privacy": "public",
     "sdkVersion": "30.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,6 +25,14 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.benedikteeva.friendfinderBB",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAP--jgmCLdrbx-UN4gLOIw4aAW7Xx278Y"
+        }
+      }
     }
   }
 }

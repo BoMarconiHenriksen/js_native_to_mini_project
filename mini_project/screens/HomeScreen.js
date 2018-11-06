@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { WebBrowser } from 'expo';
+import { Constants, Location, Permissions ,MapView,WebBrowser} from 'expo';
+
 
  
 
@@ -36,10 +37,15 @@ export default class HomeScreen extends React.Component {
           </View>
 
    
-            <Text style={styles.title}>
-            a map should appear here
-            </Text>
-         
+            <MapView
+        style={styles.map}
+        initialRegion={{
+          latitude: 55.5364062,
+          longitude: 12.2190946,
+          latitudeDelta: 0.000920,
+          longitudeDelta: 0.000422,
+        }}
+      />
 
         </ScrollView>
 
@@ -145,6 +151,10 @@ const styles = StyleSheet.create({
     fontSize:26,
     color:"#66B032",
     textAlign: 'center',
-  }
+  },  map: {
+    height:150,
+    flex:1
+   
+ }
 });
 

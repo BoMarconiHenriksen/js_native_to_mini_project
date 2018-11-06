@@ -1,13 +1,15 @@
 import React from 'react';
-import {Platform,  View, Text, Image, TextInput, Button,StyleSheet} from 'react-native';
+import { Platform, View, Text, Image, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
 import { Fab, Icon, Container, Content } from 'native-base'
 import loginfacade from '../facades/loginFacade';
-import { Constants, Location, Permissions } from 'expo';
+import { Constants, Location, Permissions ,MapView,Marker} from 'expo';
+const URL = 'https://miniprojectfsjsbebop.herokuapp.com/api/';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { text: "Waiting", loggedIn: false, userName: "", password: "", latitude:0, longitude:0, distance: 1000, location:[] }
+    this.state = { text: "Waiting", loggedIn: false, userName: "", password: "", latitude: 0, longitude: 0, 
+    distance: 1000, location: [], friends:[] , markers:[]}
 
   }
   static navigationOptions = {
@@ -24,73 +26,107 @@ export default class LoginScreen extends React.Component {
       this._getLocationAsync();
     }
   }
-    _getLocationAsync = async () => {
-      let { status } = await Permissions.askAsync(Permissions.LOCATION);
-      if (status !== 'granted') {
-        this.setState({
-          errorMessage: 'Permission to access location was denied',
-        });
-      }
+  login =async (username, password, latitude, longitude, distance) => {
+    await fetch(URL + "login", {
+         method: 'POST',
+         headers: {
+             'Content-Type': 'application/json',
+         }, body: JSON.stringify({
+             userName: username,
+             password: password,
+             latitude: latitude,
+             longitude: longitude,
+             distance: distance
+         }),
+     }).then((response) => response.json())
+         .then((responseJson) => {
+           console.log(responseJson)
+            this.setState({friends:responseJson.friends})
+             return responseJson.friends;
+         })
+         .catch((error) => {
+             console.error(error);
+         });
+        }
 
-      const location = await Location.getCurrentPositionAsync({});
-      this.setState({location:location})
-      this.setState({ latitude:location.coords.latitude, longitude:location.coords.longitude });
-    };
+        _getLocationAsync = async () => {
+
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      });
+
+    }
+
+    const location = await Location.getCurrentPositionAsync({});
+    this.setState({ location: location })
+    this.setState({ latitude: location.coords.latitude, longitude: location.coords.longitude });
+  };
+  _getFriends=async ()=>{
+    this.setState({loggedIn:true});
+
+   let friends= await this.login(this.state.userName, this.state.password, this.state.latitude, 
+      this.state.longitude, this.state.distance)
+    const friendsMapped=friends.map((friend)=>{
+return friend.username
+    })
+      }
+      
+
+
+     
+
   
-    render() {
-      let text = 'Waiting..';
-      if (this.state.errorMessage) {
-        text = this.state.errorMessage;
-      } else if (this.state.location) {
-       text='Your position: Latitude: '+this.state.latitude+' Longitude: '+this.state.longitude
-      }
-      return (
-        <Container style={{ alignItems: 'center', justifyContent: 'center', padding: 50 }}>
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
-            <Image source={require('../assets/icon.png')} style={{
-              width: 50,
-              height: 50,
-              alignSelf: 'center',
+  render() {
+   
+    let text = 'Waiting..';
+    if (this.state.errorMessage) {
+      text = this.state.errorMessage;
+    } else if (this.state.location) {
+      text = 'Your position: Latitude: ' + this.state.latitude + ' Longitude: ' + this.state.longitude
+    }
+    return (
+      <Container  contentContainerStyle={styles.contentContainer}>
+      <Container>
+     
+      
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start' }}>
 
-            }} />
-            <Text style={{ fontSize: 36 }}>Login</Text>
-            <Text>{text}</Text>
-          </View>
+          <Text style={{ fontSize: 24 }}>Login</Text>
+          <Text>{text}</Text>
 
+          <TextInput style={{ width: 200, fontSize: 18 }} placeholder='username' onChangeText={(username) => this.setState({ userName: username })} value={this.state.userName} />
+          <TextInput style={{ width: 200, fontSize: 18 }} placeholder='password' onChangeText={(password) => this.setState({ password: password })} value={this.state.password} />
 
+          <TextInput style={{ width: 200, fontSize: 18 }} keyboardType={'numeric'} placeholder='500' onChangeText={(distance) => this.setState({ distance: Number(distance) })} value={this.state.distance} /> 
+          {/* <Button title="get location" onPress={() => this._getLocationAsync()} />  */}
+          <Text></Text>
+          <Button title="submit" onPress={async() => this._getFriends()} />
+        </View>
+  
 
-          <View style={{ flex: 1 }}>
+      
+    </Container>
+    <Container styles={styles.container2}>
+    <MapView
+      style={ styles.map }
+      initialRegion={{
+        latitude: this.state.latitude,
+        longitude: this.state.longitude,
+        latitudeDelta: 0.022,
+        longitudeDelta: 0.022,
+      }}
+   ></MapView>
 
+</Container>
+  
 
-
-
-            <TextInput style={{ width: 200, fontSize: 18 }} placeholder='username' onChangeText={(username) => this.setState({ userName: username })} value={this.state.userName} />
-            <TextInput style={{ width: 200, fontSize: 18 }} placeholder='password' onChangeText={(password) => this.setState({ password: password })} value={this.state.password} />
-            
-          <TextInput   keyboardType={'numeric'} placeholder='500' onChangeText={(distance) => this.setState({distance:Number(distance)})} value={this.state.distance} /> 
-            <Button title="get location" onPress={() => this._getLocationAsync()} />
-            <Text></Text>
-            <Button title="submit" onPress={() => loginfacade.login(this.state.userName, this.state.password, this.state.latitude,this.state.longitude, this.state.distance )} />
-          </View>
-        </Container>
-
-      ); }
+</Container>
+    );
   }
-
-  4
-  5
-  6
-  7
-  8
-  9
-  10
-  11
-  12
-  13
-  14
-  15
-  16
+}
     
   const styles = StyleSheet.create({
    
@@ -105,6 +141,19 @@ export default class LoginScreen extends React.Component {
    
   textAlign: 'center',
    
-  }
+  }, container2: {
+    ...StyleSheet.absoluteFillObject,
+    flex:2,
+    height: 400,
+    width: 400,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor:'transparent'
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+},
    
   });
+
+  {/* https://medium.com/nycdev/create-a-react-native-app-with-google-map-using-expo-io-68041252023d */}
