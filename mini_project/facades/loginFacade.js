@@ -22,7 +22,7 @@ class loginFacade extends Component {
         }).then((response) => response.json())
             .then((responseJson) => {
                console.log(responseJson.friends)
-                return responseJson;
+                return responseJson.friends;
             })
             .catch((error) => {
                 console.error(error);

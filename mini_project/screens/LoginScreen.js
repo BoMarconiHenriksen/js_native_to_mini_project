@@ -3,7 +3,7 @@ import { Platform, View, Text, Image, TextInput, Button, StyleSheet, ScrollView 
 import { Fab, Icon, Container, Content } from 'native-base'
 import loginfacade from '../facades/loginFacade';
 import { Constants, Location, Permissions ,MapView,Marker} from 'expo';
-
+const URL = 'https://miniprojectfsjsbebop.herokuapp.com/api/';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -26,12 +26,37 @@ export default class LoginScreen extends React.Component {
       this._getLocationAsync();
     }
   }
-  _getLocationAsync = async () => {
+  login =async (username, password, latitude, longitude, distance) => {
+    await fetch(URL + "login", {
+         method: 'POST',
+         headers: {
+             'Content-Type': 'application/json',
+         }, body: JSON.stringify({
+             userName: username,
+             password: password,
+             latitude: latitude,
+             longitude: longitude,
+             distance: distance
+         }),
+     }).then((response) => response.json())
+         .then((responseJson) => {
+           console.log(responseJson)
+            this.setState({friends:responseJson.friends})
+             return responseJson.friends;
+         })
+         .catch((error) => {
+             console.error(error);
+         });
+        }
+
+        _getLocationAsync = async () => {
+
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
       this.setState({
         errorMessage: 'Permission to access location was denied',
       });
+
     }
 
     const location = await Location.getCurrentPositionAsync({});
@@ -39,25 +64,23 @@ export default class LoginScreen extends React.Component {
     this.setState({ latitude: location.coords.latitude, longitude: location.coords.longitude });
   };
   _getFriends=async ()=>{
-    this.setState({friends:[{latitude:this.state.latitude, longitude:this.state.longitude, username:this.state.userName}]})
-   let friends= await loginfacade.login(this.state.userName, this.state.password, this.state.latitude, 
-      this.state.longitude, this.state.distance).then((data)=>{
-        if(data){
-          this.setState({loggedIn:true});
-          this.setState({friends:friends})
-        }else{
-          this.setState({friends:[{username:'weird', latitude:this.state.latitude, longitude:this.state.longitude}]})
-        }
-      })
+    this.setState({loggedIn:true});
+
+   let friends= await this.login(this.state.userName, this.state.password, this.state.latitude, 
+      this.state.longitude, this.state.distance)
+    const friendsMapped=friends.map((friend)=>{
+return friend.username
+    })
+      }
+      
 
 
-  }
      
 
   
 
   render() {
-    console.log(this.state.friends)
+   
     let text = 'Waiting..';
     if (this.state.errorMessage) {
       text = this.state.errorMessage;
@@ -65,7 +88,7 @@ export default class LoginScreen extends React.Component {
       text = 'Your position: Latitude: ' + this.state.latitude + ' Longitude: ' + this.state.longitude
     }
     return (
-      <Container style={styles.container} contentContainerStyle={styles.contentContainer}>
+      <Container  contentContainerStyle={styles.contentContainer}>
       <Container>
      
       
@@ -77,8 +100,8 @@ export default class LoginScreen extends React.Component {
           <TextInput style={{ width: 200, fontSize: 18 }} placeholder='username' onChangeText={(username) => this.setState({ userName: username })} value={this.state.userName} />
           <TextInput style={{ width: 200, fontSize: 18 }} placeholder='password' onChangeText={(password) => this.setState({ password: password })} value={this.state.password} />
 
-          <TextInput style={{ width: 200, fontSize: 18 }} keyboardType={'numeric'} placeholder='500' onChangeText={(distance) => this.setState({ distance: Number(distance) })} value={this.state.distance} />
-          {/* <Button title="get location" onPress={() => this._getLocationAsync()} /> */}
+          {/* <TextInput style={{ width: 200, fontSize: 18 }} keyboardType={'numeric'} placeholder='500' onChangeText={(distance) => this.setState({ distance: Number(distance) })} value={this.state.distance} />  */}
+          {/* <Button title="get location" onPress={() => this._getLocationAsync()} />  */}
           <Text></Text>
           <Button title="submit" onPress={async() => this._getFriends()} />
         </View>
@@ -86,16 +109,16 @@ export default class LoginScreen extends React.Component {
 
       
     </Container>
-    <Container>
+    <Container styles={styles.container2}>
     <MapView
       style={ styles.map }
       initialRegion={{
-        latitude: 37.78825,
-        longitude: -122.4324,
-        latitudeDelta: 0.00422,
-        longitudeDelta: 0.00421,
+        latitude: this.state.latitude,
+        longitude: this.state.longitude,
+        latitudeDelta: 0.022,
+        longitudeDelta: 0.022,
       }}
-   / >
+   ></MapView>
 
 </Container>
   
@@ -118,11 +141,19 @@ export default class LoginScreen extends React.Component {
    
   textAlign: 'center',
    
-  },  map: {
-      height: 100,
-      width :400,
-      flex:1
-     
-   }
+  }, container2: {
+    ...StyleSheet.absoluteFillObject,
+    flex:2,
+    height: 400,
+    width: 400,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor:'transparent'
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+},
    
   });
+
+  {/* https://medium.com/nycdev/create-a-react-native-app-with-google-map-using-expo-io-68041252023d */}
