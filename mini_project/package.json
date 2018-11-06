@@ -16,7 +16,7 @@
     "mapview",
     "google-maps",
     "mapkit"
-],
+  ],
   "dependencies": {
     "@expo/vector-icons": "^8.0.0",
     "expo-cli": "^2.2.6",
