@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-
+import { Constants, Location, Permissions ,MapView,Marker} from 'expo';
 
 
 
@@ -22,7 +22,7 @@ class loginFacade extends Component {
         }).then((response) => response.json())
             .then((responseJson) => {
                console.log(responseJson.friends)
-                return responseJson;
+                return responseJson.friends;
             })
             .catch((error) => {
                 console.error(error);
@@ -32,7 +32,19 @@ class loginFacade extends Component {
         
            
     }
-}
+
+
+     
+ _getLocationAsync = async () => {
+
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+  return   'Permission to access location was denied'
+      }
+
+ return await Location.getCurrentPositionAsync({});
+ 
+}}
 
 
 
