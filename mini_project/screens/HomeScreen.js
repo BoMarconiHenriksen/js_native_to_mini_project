@@ -65,7 +65,6 @@ export default class HomeScreen extends React.Component {
     );
   };
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -129,7 +128,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   tabBarInfoText: {
-    fontSize: 17,
+    fontSize: 26,
     color: 'rgba(96,100,109, 1)',
     textAlign: 'center',
   },

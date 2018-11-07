@@ -8,15 +8,6 @@
     "ios": "expo start --ios",
     "eject": "expo eject"
   },
-  "keywords": [
-    "react",
-    "react-native",
-    "react-component",
-    "map",
-    "mapview",
-    "google-maps",
-    "mapkit"
-],
   "dependencies": {
     "@expo/vector-icons": "^8.0.0",
     "expo-cli": "^2.2.6",
