@@ -67,6 +67,21 @@ export default class LoginScreen extends React.Component {
     this.setState({ location: location })
     this.setState({ latitude: location.coords.latitude, longitude: location.coords.longitude });
   };
+  getInitialState() {
+    return {
+      region: {
+        latitude: this.state.latitude,
+        longitude: this.state.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      },
+    };
+  }
+  
+  onRegionChange(region) {
+    this.setState({ region });
+  }
+  
 
   _getmarkers = async () => {
     this.setState({ loggedIn: true });
@@ -103,12 +118,7 @@ export default class LoginScreen extends React.Component {
 
 
         < MapView style={styles.map}
-          initialRegion={{
-            latitude: this.state.latitude,
-            longitude: this.state.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421
-          }}
+          initialRegion={this.getInitialState()}
         >
         {this.state.markers.map(marker =>(
           <MapView.Marker
