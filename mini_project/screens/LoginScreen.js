@@ -15,8 +15,8 @@ export default class LoginScreen extends React.Component {
       message: "",
       distance: "",
       // Is used for get location.
-      latitude: "", 
-      longitude: "",
+      latitude: null, 
+      longitude: null,
       location: [],
       // Is used to show the user on a map.
       //markers: [{ username: "", latitude: "", longitude: "" }], 
@@ -36,7 +36,7 @@ export default class LoginScreen extends React.Component {
         errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
       });
     } else {
-      //this._getLocationAsync();
+      this._getLocationAsync();
       //console.log(this.state.markers)
     }
   }
@@ -89,10 +89,6 @@ export default class LoginScreen extends React.Component {
           <TextInput style={{ padding: 10, width: 200, fontSize: 24 }} placeholder='Enter password' onChangeText={(password) => this.setState({ password: password })} value={this.state.password} />
           <TextInput style={{ padding: 10, width: 200, fontSize: 24 }} keyboardType={'numeric'} placeholder='Distance in km' onChangeText={(distance) => this.setState({ distance: Number(distance) })} value={this.state.distance} />
           
-          <View style={{margin:30}} >
-            <Button title="get location" onPress={() => this._getLocationAsync()} />  
-          </View> 
-
           {/* Show loading icon. */}
           {this.state.showLoadingIcon &&
             <ActivityIndicator size="large" color="#4c4cff" />
@@ -120,8 +116,9 @@ export default class LoginScreen extends React.Component {
           
         </View>
 
-        {/* Show the user on a map. */}
-        < MapView style={styles.map}
+        {/* Show the area where the user is. If latitude is null the map does not render */}
+        { this.state.latitude != null &&
+          < MapView style={styles.map}
           initialRegion={{
             latitude: this.state.latitude,
             longitude: this.state.longitude,
@@ -131,6 +128,8 @@ export default class LoginScreen extends React.Component {
         >
         
         </ MapView>
+        }
+        
         
       </ScrollView>
     );
