@@ -1,107 +1,126 @@
 import React from 'react';
-import { Platform, View, Text, Image, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
-import { Fab, Icon, Container, Content } from 'native-base'
+import { Platform, View, Text, TextInput, Button, StyleSheet, ScrollView, ActivityIndicator, } from 'react-native';
 import { Constants, Location, Permissions, MapView, Marker } from 'expo';
-const URL = 'https://miniprojectfsjsbebop.herokuapp.com/api/';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: "Waiting", loggedIn: false, userName: "", password: "", latitude: 55.5364109, longitude: 12.2190846,
-      distance: 1000, location: [], markers: [{ username: 'me', latitude: 55.5364109, longitude: 12.2190846 }], region: []
-    }
-
-  }
-  static navigationOptions = {
-    header: null,
-    title: "Login",
+      isLoggedIn: false, 
+      getUserPosition: false,
+      showLoadingIcon: false,
+      // userName, password and distance stores the text input.
+      userName: "", 
+      password: "",
+      message: "",
+      distance: "",
+      // Is used for get location.
+      latitude: "", 
+      longitude: "",
+      location: [],
+      // Is used to show the user on a map.
+      //markers: [{ username: "", latitude: "", longitude: "" }], 
+      //region: []
+    };
 
   };
+
+  // Remove header.
+  static navigationOptions = {
+      header: null,
+    }; 
+
   componentWillMount() {
     if (Platform.OS === 'android' && !Constants.isDevice) {
       this.setState({
         errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
       });
     } else {
-      this._getLocationAsync();
-      console.log(this.state.markers)
+      //this._getLocationAsync();
+      //console.log(this.state.markers)
     }
   }
-  login = async (username, password, latitude, longitude, distance) => {
-    await fetch(URL + "login", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      }, body: JSON.stringify({
-        userName: username,
-        password: password,
-        latitude: latitude,
-        longitude: longitude,
-        distance: distance
-      }),
-    }).then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson)
-        this.setState({ markers: responseJson.friends })
 
-        return responseJson.friends;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
+  // Get user location
   _getLocationAsync = async () => {
+    // Changing state will rerender the view.
+    this.setState({
+      showLoadingIcon: true,
+    });
 
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
       this.setState({
         errorMessage: 'Permission to access location was denied',
       });
-
-    }
+    };
 
     const location = await Location.getCurrentPositionAsync({});
+    this.setState({
+      showLoadingIcon: false,
+      getUserPosition: true,
+    });
 
-    this.setState({ location: location })
+    this.setState({ location: location });
     this.setState({ latitude: location.coords.latitude, longitude: location.coords.longitude });
   };
 
-  _getmarkers = async () => {
-    this.setState({ loggedIn: true });
-
-    const bemarkers = await this.login(this.state.userName, this.state.password, this.state.latitude,
-      this.state.longitude, this.state.distance)
-
-  }
+  showUserPosition() {
+    if (this.state.errorMessage) {
+      return userPosition = this.state.errorMessage;
+    } else if (this.state.location && this.state.getUserPosition === true) {
+      return userPosition = 'Your position: Latitude: ' + this.state.latitude + ' Longitude: ' + this.state.longitude
+    };
+  };
 
   render() {
 
-    let text = 'Waiting..';
-    if (this.state.errorMessage) {
-      text = this.state.errorMessage;
-    } else if (this.state.location) {
-      text = 'Your position: Latitude: ' + this.state.latitude + ' Longitude: ' + this.state.longitude
-    }
+    let velcomeText = 'Login and find your friends.';
+    
     return (
 
       <ScrollView>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start' }}>
+        <View style={{ flex: 1, alignItems: 'center', padding: 20, justifyContent: 'flex-start' }}>
 
-          <Text style={{ fontSize: 24 }}>Login</Text>
-          <Text>{text}</Text>
+          <Text style={{ padding: 20, fontSize: 35 }}>Login</Text>
+          <Text style={{ fontSize: 18 }}>{velcomeText}</Text>
 
-          <TextInput style={{ width: 200, fontSize: 18 }} placeholder='username' onChangeText={(username) => this.setState({ userName: username })} value={this.state.userName} />
-          <TextInput style={{ width: 200, fontSize: 18 }} placeholder='password' onChangeText={(password) => this.setState({ password: password })} value={this.state.password} />
+          <TextInput style={{ padding: 10, width: 200, fontSize: 24 }} placeholder='Enter user name' onChangeText={(username) => this.setState({ userName: username })} value={this.state.userName} />
+          <TextInput style={{ padding: 10, width: 200, fontSize: 24 }} placeholder='Enter password' onChangeText={(password) => this.setState({ password: password })} value={this.state.password} />
+          <TextInput style={{ padding: 10, width: 200, fontSize: 24 }} keyboardType={'numeric'} placeholder='Distance in km' onChangeText={(distance) => this.setState({ distance: Number(distance) })} value={this.state.distance} />
+          
+          <View style={{margin:30}} >
+            <Button title="get location" onPress={() => this._getLocationAsync()} />  
+          </View> 
 
-          <TextInput style={{ width: 200, fontSize: 18 }} keyboardType={'numeric'} placeholder='500' onChangeText={(distance) => this.setState({ distance: Number(distance) })} value={this.state.distance} />
-          <Button title="get location" onPress={() => this._getLocationAsync()} />  
-          <Text></Text>
-          <Button title="submit" onPress={() => this._getmarkers()} />
+          {/* Show loading icon. */}
+          {this.state.showLoadingIcon &&
+            <ActivityIndicator size="large" color="#4c4cff" />
+          }
+
+          {/* Show lat and long for the user. */}
+          <Text>{this.showUserPosition()}</Text>
+
+          {/* isLoggingIn tracks whether logging in is in progress. */}
+          {/* https://reactjs.org/docs/conditional-rendering.html?utm_source=syndicate&utm_campaign=scotchio-feb2017&utm_medium=post#inline-if-with-logical-ampamp-operator */}
+          {this.state.isLoggingIn && <ActivityIndicator />}
+          <View style={{margin:30}} >
+            <Button 
+              title="submit" 
+              onPress={() => this._getmarkers()} 
+            />
+          </View>
+
+          {/* Show error message. KAN VI BRUGE LENGTH??? */}
+          { this.state.message.length > 0 && 
+          <Text
+            style={{fontSize: 18, color: 'red', padding: 5}}>
+            {this.state.message}
+          </Text> }
+          
         </View>
 
-
+        {/* Show the user on a map. */}
         < MapView style={styles.map}
           initialRegion={{
             latitude: this.state.latitude,
@@ -110,26 +129,17 @@ export default class LoginScreen extends React.Component {
             longitudeDelta: 0.0421
           }}
         >
-        {this.state.markers.map(marker =>(
-          <MapView.Marker
-            coordinate={{latitude:marker.latitude,longitude:marker.longitude}}
-           title={marker.username}
-          />
-        ))}
-
+        
         </ MapView>
-
+        
       </ScrollView>
-
-
-
     );
-  }
-}
+  };
+};
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 4,
     backgroundColor: '#Fffffd',
   },
 
@@ -177,14 +187,3 @@ const styles = StyleSheet.create({
 
   }
 });
-
-
-
-{/* https://medium.com/nycdev/create-a-react-native-app-with-google-map-using-expo-io-68041252023d */ }
-/* 
-{this.state.markers.map(marker =>(
-  <Marker
-    coordinate={{latitude:marker.latitude,longitude:marker.longitude}}
-   
-  />
-))} */

@@ -8,18 +8,27 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Constants, Location, Permissions ,MapView,WebBrowser} from 'expo';
+import { Constants, Location, Permissions , MapView,WebBrowser} from 'expo';
 
 
  
 
 export default class HomeScreen extends React.Component {
+  state = {
+    isLoggedIn: false
+  }
+  
+  // Remove header.
   static navigationOptions = {
     header: null,
   };
 
   render() {
+
     return (
+
+
+      
       <View style={styles.container}>
      
 

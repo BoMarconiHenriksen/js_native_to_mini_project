@@ -1,13 +1,11 @@
 import React, { Component } from "react"
 import { Constants, Location, Permissions ,MapView,Marker} from 'expo';
 
-
-
 const URL = 'https://miniprojectfsjsbebop.herokuapp.com/api/';
 
 class loginFacade extends Component {
 
-    login =async (username, password, latitude, longitude, distance) => {
+    login = async (username, password, latitude, longitude, distance) => {
        await fetch(URL + "login", {
             method: 'POST',
             headers: {
@@ -21,8 +19,13 @@ class loginFacade extends Component {
             }),
         }).then((response) => response.json())
             .then((responseJson) => {
-               console.log(responseJson.friends)
-                return responseJson.friends;
+                // SE PÅ DENNE HER!!!
+                if (responseJson.error) { // ???
+                    return this.setState({message: response.status});
+                } else {
+                    console.log(responseJson.friends)
+                    return responseJson.friends;
+                };
             })
             .catch((error) => {
                 console.error(error);
