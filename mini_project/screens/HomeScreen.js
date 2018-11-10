@@ -35,7 +35,7 @@ export default class HomeScreen extends React.Component {
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
           <Text style={styles.title}>Friendfinderapp</Text>
-{/* this image should be a map with current position */}
+            {/* this image should be a map with current position */}
             <Image
               source={
                  require('../assets/icon.png')

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform, View, Text, TextInput, Button, StyleSheet, ScrollView, ActivityIndicator, } from 'react-native';
 import { Constants, Location, Permissions, MapView, Marker } from 'expo';
+import LoginFacade from '../facades/LoginFacade'; // Skal refaktures.
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -13,14 +14,14 @@ export default class LoginScreen extends React.Component {
       userName: "", 
       password: "",
       message: "",
-      distance: "",
+      distance: null,
       // Is used for get location.
       latitude: null, 
       longitude: null,
       location: [],
       // Is used to show the user on a map.
-      //markers: [{ username: "", latitude: "", longitude: "" }], 
-      //region: []
+      markers: [{ username: "as", latitude: 57, longitude: 12 }], 
+      region: []
     };
 
   };
@@ -37,7 +38,6 @@ export default class LoginScreen extends React.Component {
       });
     } else {
       this._getLocationAsync();
-      //console.log(this.state.markers)
     }
   }
 
@@ -71,6 +71,23 @@ export default class LoginScreen extends React.Component {
     } else if (this.state.location && this.state.getUserPosition === true) {
       return userPosition = 'Your position: Latitude: ' + this.state.latitude + ' Longitude: ' + this.state.longitude
     };
+  };
+
+  // Refaktures.
+  _getmarkers = async () => {
+    this.setState({ isLoggedIn: true });
+
+    // Unhandled promise
+    let friendMarkers = await LoginFacade.login(this.state.userName, this.state.password, this.state.latitude,
+      this.state.longitude, this.state.distance);  
+
+        
+    
+    /* console.log('BBBBBB' + bemarkers);
+    this.setState({ markers: bemarkers.friends })
+    
+    console.log("AAAAAAA" + this.state.markers); */
+
   };
 
   render() {
@@ -126,7 +143,12 @@ export default class LoginScreen extends React.Component {
             longitudeDelta: 0.0421
           }}
         >
-        
+        {this.state.markers.map(marker =>(
+          <MapView.Marker
+            coordinate={{latitude: marker.latitude, longitude: marker.longitude}}
+            title={marker.username}
+          />
+        ))}
         </ MapView>
         }
         
