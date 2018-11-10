@@ -82,7 +82,7 @@ export default class LoginScreen extends React.Component {
   onRegionChange(region) {
     this.setState({ region: region });
   }
-  // you login with a fetch that returns a jsonobject with your loggedin friends within the distance youve set. 
+  // you login with a fetch that returns a jsonobject with your loggedin friends within the distance you've set. 
   login = async (username, password, latitude, longitude, distance) => {
     await fetch(URL + "login", {
       method: 'POST',
@@ -136,7 +136,7 @@ export default class LoginScreen extends React.Component {
         <Text>{this.showUserPosition()}</Text>
 
         {/* isLoggingIn tracks whether logging in is in progress. */}
-        {/* https://reactjs.org/docs/conditional-rendering.html?utm_source=syndicate&utm_campaign=scotchio-feb2017&utm_medium=post#inline-if-with-logical-ampamp-operator */}
+    
         {this.state.isLoggingIn && <ActivityIndicator />}
 
         {/* Show error message. KAN VI BRUGE LENGTH??? */}
