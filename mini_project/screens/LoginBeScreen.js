@@ -91,8 +91,8 @@ export default class LoginScreen extends React.Component {
       .then((responseJson) => {
    console.log('marked login'+distance)
         this.setState({ markers: responseJson.friends })
-        this.setState({ region:{latitude:this.state.latitude, longitude:this.state.longitude, latitudeDelta: 0.00922*distance*0.001+0.0000001,
-          longitudeDelta: 0.00421*distance*0.001+0.0000001}})
+        this.setState({ region:{latitude:this.state.latitude, longitude:this.state.longitude, latitudeDelta: 0.00922*(distance+distance*0.1)*0.001+0.0000001,
+          longitudeDelta: 0.00421*(distance+distance*0.1)*0.001+0.0000001}})
         this.setState({ loggedIn: true });
         return responseJson.friends;
       })
