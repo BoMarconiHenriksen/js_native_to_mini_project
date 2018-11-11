@@ -25,14 +25,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    },
-    "android": {
-      "package": "com.benedikteeva.friendfinderBB",
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyAP--jgmCLdrbx-UN4gLOIw4aAW7Xx278Y"
-        }
-      }
     }
+   
   }
 }

@@ -10,12 +10,12 @@ export default class LoginScreen extends React.Component {
     this.state = {
       isLoggedIn: false, getUserPosition: false, showLoadingIcon: false, message: "",
       // userName, password and distance stores the text input.
-      userName: "", password: "", message: "", distance: 0,
+      userName: "", password: "", message: "", distance: 50,
       // Is used for get location.
-      latitude: 55.70, longitude: 12.30, location: [{ latitude: 56, longitude: 12.3 }],
+      latitude: 55.70, longitude: 12.30, location: { latitude: 56, longitude: 12.3 }, 
       // Is used to show the user on a map.
       markers: [],
-      region: [{ latitude: 55.5364469, longitude: 12.2190163, latitudeDelta: 0.0922, longitudeDelta: 0.0421, }]
+      region: { latitude: 55.5364469, longitude: 12.2190163, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }
     };
 
   };
@@ -47,14 +47,21 @@ export default class LoginScreen extends React.Component {
       showLoadingIcon: true,
     });
     const location = await Location.getCurrentPositionAsync({});
+
     this.setState({
       showLoadingIcon: false,
       getUserPosition: true,
+      region: {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+      },
       location: location,
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
-      markers: [{ username: 'Your position', latitude: this.state.latitude, longitude: this.state.longitude }], //shows your own posistion and when you login you get your friends pos
-      region: this.onRegionChange(this.getInitialState())
+      markers: [{ username: 'Your position', latitude:  location.coords.latitude, longitude: location.coords.longitude}], //shows your own posistion and when you login you get your friends pos
+      
     })
   };
 
@@ -67,21 +74,6 @@ export default class LoginScreen extends React.Component {
     };
   };
 
-  getInitialState() {
-    return {
-      region: {
-        latitude: this.state.latitude,
-        longitude: this.state.longitude,
-
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      },
-    };
-  }
-
-  onRegionChange(region) {
-    this.setState({ region: region });
-  }
   // you login with a fetch that returns a jsonobject with your loggedin friends within the distance you've set. 
   login = async (username, password, latitude, longitude, distance) => {
     await fetch(URL + "login", {
@@ -97,8 +89,10 @@ export default class LoginScreen extends React.Component {
       }),
     }).then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson)
+   console.log('marked login'+distance)
         this.setState({ markers: responseJson.friends })
+        this.setState({ region:{latitude:this.state.latitude, longitude:this.state.longitude, latitudeDelta: 0.00922*distance*0.001+0.0000001,
+          longitudeDelta: 0.00421*distance*0.001+0.0000001}})
         this.setState({ loggedIn: true });
         return responseJson.friends;
       })
@@ -149,13 +143,9 @@ export default class LoginScreen extends React.Component {
 
         {/* Show the user on a map. */}
         { this.state.latitude != null &&
-        < MapView style={styles.map}
-        initialRegion={{
-          latitude: this.state.latitude,
-          longitude: this.state.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421
-        }}
+        < MapView key={this.state.region+Date()}
+        style={styles.map}
+        initialRegion={this.state.region}
         >
           {this.state.markers.map(marker => (
             <MapView.Marker key={marker.username}
