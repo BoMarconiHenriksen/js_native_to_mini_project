@@ -88,19 +88,25 @@ export default class LoginScreen extends React.Component {
         distance: distance
       }),
     }).then((response) => response.json())
+   
       .then((responseJson) => {
+        console.log(responseJson)
+     if(responseJson.status===404){
+       this.setState({message:responseJson.friends})
+     }else{
         this.setState({ markers: responseJson.friends })
         this.setState({
+          message:"",
           region: {
-            latitude: this.state.latitude, longitude: this.state.longitude, latitudeDelta: 0.00922 * (distance + distance * 0.25) * 0.001 ,
-            longitudeDelta: 0.00421 * (distance + distance * 0.25) * 0.001
+            latitude: this.state.latitude, longitude: this.state.longitude, latitudeDelta: 0.00922 * (distance * 1.25) * 0.001 ,
+            longitudeDelta: 0.00421 * ( distance * 1.25) * 0.001
           }
         })
         this.setState({ loggedIn: true });
         return responseJson.friends;
-      })
+      }})
       .catch((error) => {
-        console.error(error);
+      this.setState({message:'no such user'})
       });
   }
 
@@ -119,7 +125,7 @@ export default class LoginScreen extends React.Component {
 
           <TextInput style={styles.textinput} placeholder='Enter user name' onChangeText={(username) => this.setState({ userName: username })} value={this.state.userName} />
           <TextInput style={styles.textinput} placeholder='Enter password' onChangeText={(password) => this.setState({ password: password })} value={this.state.password} />
-          <TextInput style={styles.textinput} keyboardType={'numeric'} placeholder='Distance in km' onChangeText={(distance) => this.setState({ distance: Number(distance * 1000) })} value={this.state.distance} />
+          <TextInput type='number' style={styles.textinput} keyboardType={'numeric'} placeholder='10' onChangeText={(distance) => this.setState({ distance: Number(distance * 1000) })} value={this.state.distance} />
 
           <Button title="submit" onPress={() => this.login(this.state.userName, this.state.password, this.state.latitude, this.state.longitude, this.state.distance)} />
         </View>
@@ -154,10 +160,14 @@ export default class LoginScreen extends React.Component {
               <MapView.Marker key={marker.username}
                 coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
                 title={marker.username}
-                pinColor={'blue'}
+                pinColor={'green'}
               />
             ))}
-
+ <MapView.Marker key="yourposition"
+                coordinate={{ latitude: this.state.latitude, longitude: this.state.longitude }}
+                title="You"
+                pinColor={'blue'}
+              />
           </ MapView>
         }
       </ScrollView>
