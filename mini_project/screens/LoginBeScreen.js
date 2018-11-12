@@ -8,11 +8,11 @@ export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoggedIn: false, getUserPosition: false, showLoadingIcon: false, message: "",
+      isLoggedIn: false, getUserPosition: false, showLoadingIcon: false,
       // userName, password and distance stores the text input.
       userName: "", password: "", message: "", distance: 50,
       // Is used for get location.
-      latitude: 55.70, longitude: 12.30, location: { latitude: 56, longitude: 12.3 }, 
+      latitude: 55.70, longitude: 12.30, location: { latitude: 56, longitude: 12.3 },
       // Is used to show the user on a map.
       markers: [],
       region: { latitude: 55.5364469, longitude: 12.2190163, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }
@@ -60,8 +60,8 @@ export default class LoginScreen extends React.Component {
       location: location,
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
-      markers: [{ username: 'Your position', latitude:  location.coords.latitude, longitude: location.coords.longitude}], //shows your own posistion and when you login you get your friends pos
-      
+      markers: [{ username: 'Your position', latitude: location.coords.latitude, longitude: location.coords.longitude }], //shows your own posistion and when you login you get your friends pos
+
     })
   };
 
@@ -88,16 +88,25 @@ export default class LoginScreen extends React.Component {
         distance: distance
       }),
     }).then((response) => response.json())
+   
       .then((responseJson) => {
-   console.log('marked login'+distance)
+        console.log(responseJson)
+     if(responseJson.status===404){
+       this.setState({message:responseJson.friends})
+     }else{
         this.setState({ markers: responseJson.friends })
-        this.setState({ region:{latitude:this.state.latitude, longitude:this.state.longitude, latitudeDelta: 0.00922*(distance+distance*0.1)*0.001+0.0000001,
-          longitudeDelta: 0.00421*(distance+distance*0.1)*0.001+0.0000001}})
+        this.setState({
+          message:"",
+          region: {
+            latitude: this.state.latitude, longitude: this.state.longitude, latitudeDelta: 0.00922 * (distance * 1.25) * 0.001 ,
+            longitudeDelta: 0.00421 * ( distance * 1.25) * 0.001
+          }
+        })
         this.setState({ loggedIn: true });
         return responseJson.friends;
-      })
+      }})
       .catch((error) => {
-        console.error(error);
+      this.setState({message:'no such user'})
       });
   }
 
@@ -116,7 +125,7 @@ export default class LoginScreen extends React.Component {
 
           <TextInput style={styles.textinput} placeholder='Enter user name' onChangeText={(username) => this.setState({ userName: username })} value={this.state.userName} />
           <TextInput style={styles.textinput} placeholder='Enter password' onChangeText={(password) => this.setState({ password: password })} value={this.state.password} />
-          <TextInput style={styles.textinput} keyboardType={'numeric'} placeholder='Distance in km' onChangeText={(distance) => this.setState({ distance: Number(distance * 1000) })} value={this.state.distance} />
+          <TextInput type='number' style={styles.textinput} keyboardType={'numeric'} placeholder='10' onChangeText={(distance) => this.setState({ distance: Number(distance * 1000) })} value={this.state.distance} />
 
           <Button title="submit" onPress={() => this.login(this.state.userName, this.state.password, this.state.latitude, this.state.longitude, this.state.distance)} />
         </View>
@@ -130,7 +139,7 @@ export default class LoginScreen extends React.Component {
         <Text>{this.showUserPosition()}</Text>
 
         {/* isLoggingIn tracks whether logging in is in progress. */}
-    
+
         {this.state.isLoggingIn && <ActivityIndicator />}
 
         {/* Show error message. KAN VI BRUGE LENGTH??? */}
@@ -142,20 +151,25 @@ export default class LoginScreen extends React.Component {
 
 
         {/* Show the user on a map. */}
-        { this.state.latitude != null &&
-        < MapView key={this.state.region+Date()}
-        style={styles.map}
-        initialRegion={this.state.region}
-        >
-          {this.state.markers.map(marker => (
-            <MapView.Marker key={marker.username}
-              coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
-              title={marker.username}
-            />
-          ))}
-
-        </ MapView>
-}
+        {this.state.latitude != null &&
+          < MapView key={this.state.region + Date()}
+            style={styles.map}
+            initialRegion={this.state.region}
+          >
+            {this.state.markers.map(marker => (
+              <MapView.Marker key={marker.username}
+                coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+                title={marker.username}
+                pinColor={'green'}
+              />
+            ))}
+ <MapView.Marker key="yourposition"
+                coordinate={{ latitude: this.state.latitude, longitude: this.state.longitude }}
+                title="You"
+                pinColor={'blue'}
+              />
+          </ MapView>
+        }
       </ScrollView>
     );
   };
