@@ -8,11 +8,11 @@ export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoggedIn: false, getUserPosition: false, showLoadingIcon: false, message: "",
+      isLoggedIn: false, getUserPosition: false, showLoadingIcon: false,
       // userName, password and distance stores the text input.
       userName: "", password: "", message: "", distance: 50,
       // Is used for get location.
-      latitude: 55.70, longitude: 12.30, location: { latitude: 56, longitude: 12.3 }, 
+      latitude: 55.70, longitude: 12.30, location: { latitude: 56, longitude: 12.3 },
       // Is used to show the user on a map.
       markers: [],
       region: { latitude: 55.5364469, longitude: 12.2190163, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }
@@ -60,8 +60,8 @@ export default class LoginScreen extends React.Component {
       location: location,
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
-      markers: [{ username: 'Your position', latitude:  location.coords.latitude, longitude: location.coords.longitude}], //shows your own posistion and when you login you get your friends pos
-      
+      markers: [{ username: 'Your position', latitude: location.coords.latitude, longitude: location.coords.longitude }], //shows your own posistion and when you login you get your friends pos
+
     })
   };
 
@@ -89,10 +89,13 @@ export default class LoginScreen extends React.Component {
       }),
     }).then((response) => response.json())
       .then((responseJson) => {
-   console.log('marked login'+distance)
         this.setState({ markers: responseJson.friends })
-        this.setState({ region:{latitude:this.state.latitude, longitude:this.state.longitude, latitudeDelta: 0.00922*(distance+distance*0.1)*0.001+0.0000001,
-          longitudeDelta: 0.00421*(distance+distance*0.1)*0.001+0.0000001}})
+        this.setState({
+          region: {
+            latitude: this.state.latitude, longitude: this.state.longitude, latitudeDelta: 0.00922 * (distance + distance * 0.25) * 0.001 ,
+            longitudeDelta: 0.00421 * (distance + distance * 0.25) * 0.001
+          }
+        })
         this.setState({ loggedIn: true });
         return responseJson.friends;
       })
@@ -130,7 +133,7 @@ export default class LoginScreen extends React.Component {
         <Text>{this.showUserPosition()}</Text>
 
         {/* isLoggingIn tracks whether logging in is in progress. */}
-    
+
         {this.state.isLoggingIn && <ActivityIndicator />}
 
         {/* Show error message. KAN VI BRUGE LENGTH??? */}
@@ -142,20 +145,21 @@ export default class LoginScreen extends React.Component {
 
 
         {/* Show the user on a map. */}
-        { this.state.latitude != null &&
-        < MapView key={this.state.region+Date()}
-        style={styles.map}
-        initialRegion={this.state.region}
-        >
-          {this.state.markers.map(marker => (
-            <MapView.Marker key={marker.username}
-              coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
-              title={marker.username}
-            />
-          ))}
+        {this.state.latitude != null &&
+          < MapView key={this.state.region + Date()}
+            style={styles.map}
+            initialRegion={this.state.region}
+          >
+            {this.state.markers.map(marker => (
+              <MapView.Marker key={marker.username}
+                coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+                title={marker.username}
+                pinColor={'blue'}
+              />
+            ))}
 
-        </ MapView>
-}
+          </ MapView>
+        }
       </ScrollView>
     );
   };
