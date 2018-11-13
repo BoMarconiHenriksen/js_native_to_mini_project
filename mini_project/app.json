@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "friendfinderBB",
-    "description": "This project is really great.",
-    "slug": "friendfinderBB",
+    "name": "FriendFinderBB",
+    "description": "You can find your loggedin friends position on a map within a distance you choose.",
+    "slug": "FriendFinderBB",
     "privacy": "public",
     "sdkVersion": "30.0.0",
     "platforms": [

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
+import { StyleSheet, View } from 'react-native';
 import Tabs from './navigation/TabNavigator';
 
 
@@ -11,7 +10,6 @@ export default class App extends React.Component {
 
       return (
         <View style={styles.container}>
-          
           <Tabs />
         </View>
       );
