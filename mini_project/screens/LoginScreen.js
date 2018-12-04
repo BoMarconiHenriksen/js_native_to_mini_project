@@ -1,9 +1,15 @@
 import React from 'react';
 import { Platform, View, Text, TextInput, Button, StyleSheet, ScrollView, ActivityIndicator, } from 'react-native';
 import { Constants, Location, Permissions, MapView, Marker} from 'expo';
+import { ApolloProvider } from "react-apollo";
+import ApolloClient from "apollo-boost";
+import Users from '../apollo/Users';
 const URL = 'https://miniprojectfsjsbebop.herokuapp.com/api/';
 
-
+ // Client for Apollo.
+const client = new ApolloClient({
+  uri: "https://miniprojectfsjsbebop.herokuapp.com/graphql"
+});
 export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -20,7 +26,8 @@ export default class LoginScreen extends React.Component {
     };
 
   };
-  // Remove header.
+
+   // Remove header.
   static navigationOptions = {
     header: null,
   };
@@ -120,6 +127,7 @@ export default class LoginScreen extends React.Component {
 
 
   render() {
+    
     let velcomeText = "";
     if (this.state.isLoggedIn === false) {
       velcomeText = 'Login and find your friends.'
@@ -182,10 +190,23 @@ export default class LoginScreen extends React.Component {
             />
           </ MapView>
         }
+
+      <ApolloProvider client={client}>
+        
+        
+        <Users />
+      
+      </ApolloProvider>
+
       </ScrollView>
+
+      
+      
     );
   };
 };
+
+// <Button onPress={ () => this.Users } title="Get All Users"></Button>
 
 const styles = StyleSheet.create({
   container: {
