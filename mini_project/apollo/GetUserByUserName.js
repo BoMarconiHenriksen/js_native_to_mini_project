@@ -5,27 +5,26 @@ import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import { Text, View, Button } from 'react-native';
 
-let getAllusersQuery = gql`
-{
-  getUsers {
-    id
-    firstName
-    lastName
-    userName
-    password
-    email
+/* let getUserByUserName = gql`
+query{getUserByName(input:{$userName: String!}) {
+  id
+  userName
+  firstName
+  lastName
+  password
+  email
   }
 }
-`;
+`; */
 
-const Users = () => (
-  <Query query={getAllusersQuery} >
+const GetUserByUserName = () => (
+  <Query query={getUserByUserName} >
     
     {({ loading, error, data }) => {
       if (loading) return <Text>Loading...</Text>;
       if (error) return <Text>Error in the application!</Text>;
 
-      return data.getUsers.map(({ id, userName, firstName, lastName, password, email }) => (
+      return data.getUserByName.map(({ id, userName, firstName, lastName, password, email }) => (
         <View key={id}>
           <Text>{`
                   ID: ${id} 
@@ -43,4 +42,4 @@ const Users = () => (
   </Query>
 );
 
-export default Users;
+export default GetUserByUserName;

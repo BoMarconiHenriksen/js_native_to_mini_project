@@ -56,11 +56,25 @@ AllUsersStack.navigationOptions = { tabBarLabel: 'Users', tabBarIcon: ({ focused
 
 };
 
+const EditUserStack = createStackNavigator({
+  Edit: EditUserScreen,
+});
 
+EditUserStack.navigationOptions = { tabBarLabel: 'Edit User', tabBarIcon: ({ focused }) => ( 
+  <TabBarIcon focused = { focused }
+    name = {
+      Platform.OS === 'ios' ?
+      `ios-user${focused ? '' : 'md-user'}` :
+        'md-user'
+    }
+    />
+  ),
+
+};
 
 export default createBottomTabNavigator({
   HomeStack,
   LoginStack,
   AllUsersStack,
-
+  EditUserStack,
 })
