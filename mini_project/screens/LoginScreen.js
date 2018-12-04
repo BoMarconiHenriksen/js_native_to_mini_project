@@ -1,15 +1,9 @@
 import React from 'react';
 import { Platform, View, Text, TextInput, Button, StyleSheet, ScrollView, ActivityIndicator, } from 'react-native';
 import { Constants, Location, Permissions, MapView, Marker} from 'expo';
-import { ApolloProvider } from "react-apollo";
-import ApolloClient from "apollo-boost";
-import Users from '../apollo/Users';
+
 const URL = 'https://miniprojectfsjsbebop.herokuapp.com/api/';
 
- // Client for Apollo.
-const client = new ApolloClient({
-  uri: "https://miniprojectfsjsbebop.herokuapp.com/graphql"
-});
 export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -192,14 +186,7 @@ export default class LoginScreen extends React.Component {
           
         }
 
-        <ApolloProvider client={client}>
-        
-        <Users />
-       
-        </ApolloProvider>
-
-
-      </ScrollView>
+     </ScrollView>
 
       
       
