@@ -167,7 +167,6 @@ export default class LoginScreen extends React.Component {
             {this.state.message}
           </Text>
 
-
         {/* Show the map and the user and his friends on a map. */}
         {this.state.latitude != null &&
           < MapView key={this.state.region + Date()}
@@ -189,14 +188,16 @@ export default class LoginScreen extends React.Component {
               pinColor={'magenta'}
             />
           </ MapView>
+
+          
         }
 
-      <ApolloProvider client={client}>
-        
+        <ApolloProvider client={client}>
         
         <Users />
-      
-      </ApolloProvider>
+       
+        </ApolloProvider>
+
 
       </ScrollView>
 
@@ -205,8 +206,6 @@ export default class LoginScreen extends React.Component {
     );
   };
 };
-
-// <Button onPress={ () => this.Users } title="Get All Users"></Button>
 
 const styles = StyleSheet.create({
   container: {

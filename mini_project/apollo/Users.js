@@ -3,7 +3,7 @@ import React from "react";
 // Alle komponenter kan automatisk bruge ApolloProver så længe komponenterne er inde i AP.
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
-import { Text, View } from 'react-native';
+import { Text, View, Button } from 'react-native';
 
 let getAllusersQuery = gql`
 {
@@ -19,21 +19,28 @@ let getAllusersQuery = gql`
 `;
 
 const Users = () => (
-    <Query query={getAllusersQuery} >
+  <Query query={getAllusersQuery} >
     
-    {({ loading, error, data }) => {
+    {({ loading, error, data, refetch }) => {
       if (loading) return <Text>Loading...</Text>;
-      if (error) return <Text>Error :(</Text>;
+      if (error) return <Text>Error in the application!</Text>;
 
       return data.getUsers.map(({ id, userName, firstName, lastName, password, email }) => (
         <View key={id}>
-          <Text>{`${id}: ${userName}: ${firstName}: ${lastName}: ${password}: ${email}`}</Text>
+          <Text>{`
+                  ID: ${id} 
+                  Username: ${userName} 
+                  Firstname: ${firstName} 
+                  Lastname: ${lastName} 
+                  Password: ${password} 
+                  Email: ${email}`
+                }</Text>
         </View>
+        
       ));
+      
     }}
   </Query>
 );
 
 export default Users;
-
-
