@@ -1,12 +1,11 @@
 import React from "react";
-// ApolloProvider vi slipper for at løfte state op og ned.
-// Alle komponenter kan automatisk bruge ApolloProver så længe komponenterne er inde i AP.
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
-import { Text, View, Button } from 'react-native';
+import { Text, View } from 'react-native';
 
-/* let getUserByUserName = gql`
-query{getUserByName(input:{$userName: String!}) {
+let getUserByUserName = gql`
+query User($userName: String!) { 
+  getUserByName(input:{userName: $userName}) {
   id
   userName
   firstName
@@ -15,14 +14,14 @@ query{getUserByName(input:{$userName: String!}) {
   email
   }
 }
-`; */
+`; 
 
-const GetUserByUserName = () => (
-  <Query query={getUserByUserName} >
+const GetUserByUserName = ({userName}) => (
+  <Query query={getUserByUserName} variables={{ userName }} >
     
     {({ loading, error, data }) => {
       if (loading) return <Text>Loading...</Text>;
-      if (error) return <Text>Error in the application!</Text>;
+      if (error) return `Error! ${error.message}`;
 
       return data.getUserByName.map(({ id, userName, firstName, lastName, password, email }) => (
         <View key={id}>

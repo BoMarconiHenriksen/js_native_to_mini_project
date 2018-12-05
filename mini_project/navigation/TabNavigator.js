@@ -64,8 +64,8 @@ EditUserStack.navigationOptions = { tabBarLabel: 'Edit User', tabBarIcon: ({ foc
   <TabBarIcon focused = { focused }
     name = {
       Platform.OS === 'ios' ?
-      `ios-user${focused ? '' : 'md-user'}` :
-        'md-user'
+      `ios-contacts${focused ? '' : 'md-contacts'}` :
+        'md-contacts'
     }
     />
   ),
@@ -77,4 +77,4 @@ export default createBottomTabNavigator({
   LoginStack,
   AllUsersStack,
   EditUserStack,
-})
+});

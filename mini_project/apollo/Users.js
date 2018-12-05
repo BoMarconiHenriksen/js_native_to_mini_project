@@ -23,7 +23,7 @@ const Users = () => (
     
     {({ loading, error, data }) => {
       if (loading) return <Text>Loading...</Text>;
-      if (error) return <Text>Error in the application!</Text>;
+      if (error) return `Error! ${error.message}`;
 
       return data.getUsers.map(({ id, userName, firstName, lastName, password, email }) => (
         <View key={id}>
