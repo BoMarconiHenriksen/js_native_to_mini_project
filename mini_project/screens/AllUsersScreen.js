@@ -3,9 +3,6 @@ import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import Users from '../apollo/Users';
 
 export default class AllUsersScreen extends React.Component {
-    static navigationOptions = {
-      header: null,
-    };
 
     render() {
         return (

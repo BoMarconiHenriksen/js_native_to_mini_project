@@ -23,19 +23,20 @@ const GetUserByUserName = ({userName}) => (
       if (loading) return <Text>Loading...</Text>;
       if (error) return `Error! ${error.message}`;
 
-      return data.getUserByName.map(({ id, userName, firstName, lastName, password, email }) => (
-        <View key={id}>
+        
+        
+        let view = <View>
           <Text>{`
-                  ID: ${id} 
-                  Username: ${userName} 
-                  Firstname: ${firstName} 
-                  Lastname: ${lastName} 
-                  Password: ${password} 
-                  Email: ${email}`
+                  ID: ${data.getUserByName.id} 
+                  Username: ${data.getUserByName.userName} 
+                  Firstname: ${data.getUserByName.firstName} 
+                  Lastname: ${data.getUserByName.lastName} 
+                  Password: ${data.getUserByName.password} 
+                  Email: ${data.getUserByName.email}`
                 }</Text>
         </View>
         
-      ));
+        return view;
       
     }}
   </Query>
