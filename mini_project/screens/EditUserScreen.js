@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, StyleSheet, ScrollView, TextInput, Button } from 'react-native';
 import GetUserByUserName from '../apollo/GetUserByUserName';
 import DeleteUser from '../apollo/DeleteUser';
+import CreateUser from '../apollo/CreateUser';
 
 export default class EditUserScreen extends React.Component {
     constructor(props) {
@@ -9,6 +10,7 @@ export default class EditUserScreen extends React.Component {
         this.state = {
           userName: null,
           id: null,
+          user: {userName: null, firstName: null, lastName: null, password: null, email: null}
         };
     
       };
@@ -40,6 +42,54 @@ export default class EditUserScreen extends React.Component {
                 {/* Show the result of GetUserByName component. */}
                 {this.state.id != null &&
                     <DeleteUser id={this.state.id}/>
+                }
+
+                {/* Create user input and button. */}
+                <Text>Create User</Text>
+                <TextInput 
+                style={styles.textinput} 
+                onChangeText={(username) => _inputUsername = username}
+                placeholder='Enter user name'
+                />
+                
+                <TextInput 
+                style={styles.textinput} 
+                onChangeText={(firstname) => _inputFirstname = firstname}
+                placeholder='Enter first name'
+                />
+
+                <TextInput 
+                style={styles.textinput} 
+                onChangeText={(lastname) => _inputLastname = lastname}
+                placeholder='Enter last name'
+                />
+
+                <TextInput 
+                style={styles.textinput} 
+                onChangeText={(password) => _inputPassword = password}
+                placeholder='Password'
+                />
+
+                <TextInput 
+                style={styles.textinput} 
+                onChangeText={(email) => _inputEmail = email}
+                placeholder='Email'
+                />
+
+                <Button onPress={ () => this.setState({
+                    user: {
+                        userName: _inputUsername, 
+                        firstName: _inputFirstname,
+                        lastName: _inputLastname,
+                        password: _inputPassword,
+                        email: _inputEmail }
+                })} 
+                title="Create User"
+                /> 
+                
+                {/* Show the result of CreateUser component. */}
+                {this.state.id != null &&
+                    <CreateUser user={ this.state.user }/>
                 }
                 
             </ScrollView>
