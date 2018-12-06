@@ -23,8 +23,6 @@ const GetUserByUserName = ({userName}) => (
       if (loading) return <Text>Loading...</Text>;
       if (error) return `Error! ${error.message}`;
 
-        
-        
         let view = <View>
           <Text>{`
                   ID: ${data.getUserByName.id} 
