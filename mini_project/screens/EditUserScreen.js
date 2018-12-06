@@ -19,14 +19,14 @@ export default class EditUserScreen extends React.Component {
                 
                 
                 <View style={styles.title}>
-                    <Text>Edit users.</Text>
+                    <Text>Working with Apollo and GraphQL</Text>
                 </View>
 
-               
+                {/* getUserByName input and button. */}
                 <TextInput style={styles.textinput} onChangeText={(username) => _input = username}/>
                 <Button onPress={ () => this.setState({userName: _input}) } title="Get a user by username"/> 
                 
-               
+                {/* Show the result of userByName component. */}
                 {this.state.userName != null &&
                     <GetUserByUserName userName={this.state.userName}/>
                 }
@@ -36,10 +36,6 @@ export default class EditUserScreen extends React.Component {
         );
     };
 };
-// <TextInput style={styles.textinput} onChangeText={(username) => this.setState({ userName: username })} value={this.state.userName}  />
-// <GetUserByUserName /> onPress={ render = { () => <GetUserByUserName />} }
-// this.login(this.state.userName)
-{/* <TextInput ref={node => { input = node; }} /> */}
 
 const styles = StyleSheet.create({
     container: {
