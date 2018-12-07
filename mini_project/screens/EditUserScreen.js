@@ -9,7 +9,7 @@ export default class EditUserScreen extends React.Component {
         super(props);
         this.state = {
           userName: null,
-          id: null,
+          id: "",
           user: {userName: null, firstName: null, lastName: null, password: null, email: null}
         };
     

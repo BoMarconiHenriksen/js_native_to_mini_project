@@ -20,10 +20,11 @@ const GetUserByUserName = ({userName}) => (
   <Query query={getUserByUserName} variables={{ userName }} >
     
     {({ loading, error, data }) => {
+      let view="";
       if (loading) return <Text>Loading...</Text>;
       if (error) return `Error! ${error.message}`;
-
-        let view = <View>
+      if(data.getUserByName===null) view=<View><Text>No user by that username.</Text></View>;
+        else{ view = <View>
           <Text>{`
                   ID: ${data.getUserByName.id} 
                   Username: ${data.getUserByName.userName} 
@@ -33,7 +34,7 @@ const GetUserByUserName = ({userName}) => (
                   Email: ${data.getUserByName.email}`
                 }</Text>
         </View>
-        
+        }
         return view;
       
     }}
