@@ -88,9 +88,9 @@ export default class EditUserScreen extends React.Component {
                 /> 
                 
                 {/* Show the result of CreateUser component. */}
-                {/* {this.state.id != null &&
+                {this.state.user.email != null &&
                     <CreateUser user={ this.state.user }/>
-                } */}
+                }
                 
             </ScrollView>
         );

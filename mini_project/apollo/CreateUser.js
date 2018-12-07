@@ -6,19 +6,18 @@ import users from '../apollo/Users';
 // https://codesandbox.io/s/v3mn68xxvy
 // https://www.apollographql.com/docs/react/essentials/mutations.html#basic
 
-
-let getUserByUserName = gql`
-query User($userName: String!) { 
-  getUserByName(input:{userName: $userName}) {
+let getAllusersQuery = gql`
+{
+  getUsers {
     id
-    userName
     firstName
     lastName
+    userName
     password
     email
   }
 }
-`; 
+`;
 
 let createUserQuery = gql`
 mutation CreateUser($userName: String!, $firstName: String!, $lastName: String!, $password: String!, $email: String!) { 
@@ -33,43 +32,79 @@ mutation CreateUser($userName: String!, $firstName: String!, $lastName: String!,
 }
 `; 
 
-const CreateUser = ({ userName, firstName, lastName, password, email }) => (
-  <Mutation 
-    mutation={createUserQuery} 
-    variables={{ userName, firstName, lastName, password, email }}
-    update={(cache, { data: { userName, firstName, lastName, password, email } }) => {
-        const { allUsers } = cache.readQuery({ query: getUserByUserName });
-        cache.writeQuery({
-            query: getUserByUserName,
-            data: { allUsers: allUsers.concat([userName, firstName, lastName, password, email]) }
-        })
-    }}
-  >
-    
+export default class CreateUser extends React.Component {
 
-  </Mutation>
-);
+  render() {
+    let user = this.props.user;
 
-export default CreateUser;
+      // Apollo giver adgang til cachen og payload(som er den data, der er blevet slettet)
+    update = ( cache, payload ) => {
+      // Opdater klienten så den matcher serveren.
+      // Læs hvad der er i cachen.
+      const data = cache.readQuery({ query: createUser })
+      console.log(data, payload);
+      // Filter den slettere bruger ud af cachen.
+      data.getUsers = data.getUsers.filter(getUser => getUser.id !== payload.data.deleteItem.id);
+      // Læg de resterende brugere i cachen.
+      cache.writeQuery({ query: createUser, data })
+    };
+
+    return (
+      
+      <Mutation mutation={createUserQuery} variables={{userName: user.userName, firstName:user.firstName, lastName:user.lastName, password:user.password, email:user.email }}>
+
+      {(createUser, { loading, error, data }) => {
+  
+        
+        if (loading) return <Text>Loading...</Text>;
+        if (error) return `Error! ${error.message}`;
+
+        createUser({ variables:{input:{ userName:user.userName, firstName:user.firstName, lastName: user.lastName, password:user.password, email:user.email}}});
+
+          
+          return null;
+  
+}};
+
+
+      </Mutation>
+    )
+  }
+}
+
 
 /* 
-    {({ loading, error, data }) => {
+<Mutation 
+    mutation={createUserQuery} 
+    variables={{userName: user.userName, firstName:user.firstName, lastName:user.lastName, password:user.password, email:user.email }}
+
+  >
+    
+    {(createUser, { loading, error, data }) => {
+ 
+      createUser();
       if (loading) return <Text>Loading...</Text>;
       if (error) return `Error! ${error.message}`;
-    
 
-        let view = <View>
+      return null;
+      
+    }}
+  </Mutation>
+);
+*/
+
+/* 
+let view = <View>
           <Text>{`
-                  ID: ${data.createUserQuery.id} 
-                  Username: ${data.createUserQuery.userName} 
-                  Firstname: ${data.createUserQuery.firstName} 
-                  Lastname: ${data.createUserQuery.lastName} 
-                  Password: ${data.createUserQuery.password} 
-                  Email: ${data.createUserQuery.email}`
+                  ID: ${data.createUser.id} 
+                  Username: ${data.createUser.userName} 
+                  Firstname: ${data.createUser.firstName} 
+                  Lastname: ${data.createUser.lastName} 
+                  Password: ${data.createUser.password} 
+                  Email: ${data.createUser.email}`
                 }</Text>
         </View>
         
         return view;
-      
-    }}
 */
+
