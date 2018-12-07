@@ -4,22 +4,25 @@ import gql from "graphql-tag";
 import { Text, View } from 'react-native';
 
 const deleteUserQuery = gql`
- mutation deleteUser($id: ID!) {
+ mutation DeleteUser ($id: ID!) {
     deleteUser(id: $id)
   }
 `; 
 
 const DeleteUser = ({id}) => (
+  
   <Mutation mutation={deleteUserQuery} variables={{ id }} >
-    
-    {({ loading, error, data }) => {
+   
+    {(deleteUser,{ loading, error, data }) => {
+     
       let view="";
-      if (loading) return <Text>Deleting...</Text>;
+     // if (loading) return <Text>Deleting...</Text>;
       if (error) return `Error! ${error.message}`;
-      if (data===null) view= <View> <Text>returns null</Text></View>
+      if(id!==null)  deleteUser({ variables: { id:id} });
+      if (data!==null) view= <View> <Text>returns null</Text></View>
          view = <View>
          <Text>{`
-                User deleted. ${data} 
+                User deleted. ${data.deleteUser} 
                 `
 }</Text>
         </View>

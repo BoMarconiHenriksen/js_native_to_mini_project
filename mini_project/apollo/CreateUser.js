@@ -19,32 +19,34 @@ mutation CreateUser($userName: String!, $firstName: String!, $lastName: String!,
 }
 `; 
 
-const CreateUser = ({ userName, firstName, lastName, password, email }) => (
+const CreateUser = ({ user}) => (
   <Mutation 
     mutation={createUserQuery} 
-    variables={{ userName, firstName, lastName, password, email }}
-    update={(cache, { data: { userName, firstName, lastName, password, email } }) => {
-        const { allUsers } = cache.readQuery({ query: users.getAllusersQuery });
-        cache.writeQuery({
-            query: users.getAllusersQuery,
-            data: { allUsers: allUsers.concat([userName, firstName, lastName, password, email]) }
-        })
-    }}
+    variables={{userName: user.userName, firstName:user.firstName, lastName:user.lastName, password:user.password, email:user.email }}
+    // update={(cache, { data: {user} }) => {
+    //     const { allUsers } = cache.readQuery({ query: users.getAllusersQuery });
+    //     cache.writeQuery({
+    //         query: users.getAllusersQuery,
+    //         data: { allUsers: allUsers.concat([userName, firstName, lastName, password, email]) }
+    //     })
+    // }}
   >
     
-    {({ loading, error, data }) => {
+    {(createUser,{ loading, error, data }) => {
+  
+      createUser({ variables:{input:{ userName:user.userName, firstName:user.firstName, lastName: user.lastName, password:user.password, email:user.email}}});
       if (loading) return <Text>Loading...</Text>;
       if (error) return `Error! ${error.message}`;
     
 
         let view = <View>
           <Text>{`
-                  ID: ${data.createUserQuery.id} 
-                  Username: ${data.createUserQuery.userName} 
-                  Firstname: ${data.createUserQuery.firstName} 
-                  Lastname: ${data.createUserQuery.lastName} 
-                  Password: ${data.createUserQuery.password} 
-                  Email: ${data.createUserQuery.email}`
+                  ID: ${createUser.id} 
+                  Username: ${createUser.userName} 
+                  Firstname: ${createUser.firstName} 
+                  Lastname: ${createUser.lastName} 
+                  Password: ${createUser.password} 
+                  Email: ${createUser.email}`
                 }</Text>
         </View>
         
