@@ -6,12 +6,12 @@ import { Text, View } from 'react-native';
 let getUserByUserName = gql`
 query User($userName: String!) { 
   getUserByName(input:{userName: $userName}) {
-  id
-  userName
-  firstName
-  lastName
-  password
-  email
+    id
+    userName
+    firstName
+    lastName
+    password
+    email
   }
 }
 `; 
@@ -20,6 +20,7 @@ const GetUserByUserName = ({userName}) => (
   <Query query={getUserByUserName} variables={{ userName }} >
     
     {({ loading, error, data }) => {
+      console.log('USERNAME!!! ' + userName);
       if (loading) return <Text>Loading...</Text>;
       if (error) return `Error! ${error.message}`;
 
