@@ -3,7 +3,7 @@ import React from "react";
 // Alle komponenter kan automatisk bruge ApolloProver så længe komponenterne er inde i AP.
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
-import { Text, View, Button } from 'react-native';
+import { Text, View } from 'react-native';
 
 let getAllusersQuery = gql`
 {
