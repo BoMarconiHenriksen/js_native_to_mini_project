@@ -22,7 +22,7 @@ const DeleteUser = ({id}) => (
       if (data!==null) view= <View> <Text>returns null</Text></View>
          view = <View>
          <Text>{`
-                User deleted. ${data.deleteUser} 
+                User with id: ${id} deleted. 
                 `
 }</Text>
         </View>
