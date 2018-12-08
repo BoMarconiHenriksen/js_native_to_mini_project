@@ -104,8 +104,8 @@ export default class LoginScreen extends React.Component {
           this.setState({ message: " ", markers: responseJson.friends })
           this.setState({
             region: {
-              latitude: this.state.latitude, longitude: this.state.longitude, latitudeDelta: 0.00922 * (distance * 1.25) * 0.001,
-              longitudeDelta: 0.00421 * (distance * 1.25) * 0.001
+              latitude: this.state.latitude, longitude: this.state.longitude, latitudeDelta: 0.00922 * (distance * 1.25) ,
+              longitudeDelta: 0.00421 * (distance * 1.25)
             }
           })
           this.setState({ isLoggedIn: true });
@@ -137,7 +137,7 @@ export default class LoginScreen extends React.Component {
 
           <TextInput style={styles.textinput} placeholder='Enter user name' onChangeText={(username) => this.setState({ userName: username })} value={this.state.userName} />
           <TextInput style={styles.textinput} placeholder='Enter password' onChangeText={(password) => this.setState({ password: password })} value={this.state.password} />
-          <TextInput type='number' style={styles.textinput} keyboardType={'numeric'} placeholder='10' onChangeText={(distance) => this.setState({ distance: Number(distance * 1000) })} value={this.state.distance} />
+          <TextInput type='number' style={styles.textinput} keyboardType={'numeric'} placeholder='10' onChangeText={(distance) => this.setState({ distance: Number(distance ) })} value={this.state.distance} />
 
           <Button title="submit" onPress={() => this.login(this.state.userName, this.state.password, this.state.latitude, this.state.longitude, this.state.distance)} />
         </View>

@@ -23,7 +23,7 @@ const DeleteUser = ({id}) => (
          view = <View>
          <Text>{`
                 User with id: ${id} deleted. 
-                `
+             `
 }</Text>
         </View>
         
