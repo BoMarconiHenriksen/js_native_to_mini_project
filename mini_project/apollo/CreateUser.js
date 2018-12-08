@@ -22,7 +22,7 @@ mutation CreateUser($userName: String!, $firstName: String!, $lastName: String!,
 const CreateUser = ({ user}) => (
   <Mutation 
     mutation={createUserQuery} 
-    variables={{userName: user.userName, firstName:user.firstName, lastName:user.lastName, password:user.password, email:user.email }}
+   variables={{userName: user.userName, firstName:user.firstName, lastName:user.lastName, password:user.password, email:user.email }}
     // update={(cache, { data: {user} }) => {
     //     const { allUsers } = cache.readQuery({ query: users.getAllusersQuery });
     //     cache.writeQuery({
@@ -34,8 +34,8 @@ const CreateUser = ({ user}) => (
     
     {(createUser,{ loading, error, data }) => {
   
-      createUser({ variables:{input:{ userName:user.userName, firstName:user.firstName, lastName: user.lastName, password:user.password, email:user.email}}});
-      if (loading) return <Text>Loading...</Text>;
+  createUser({ variables:{input:{ userName:user.userName, firstName:user.firstName, lastName: user.lastName, password:user.password, email:user.email}}});
+    //  if (loading) return <Text>Loading...</Text>;
       if (error) return `Error! ${error.message}`;
     
 
