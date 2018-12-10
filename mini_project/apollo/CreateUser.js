@@ -32,25 +32,36 @@ const CreateUser = ({ user}) => (
     // }}
   >
     
-    {(createUser,{ loading, error, data }) => {
+    {(createUser,{ error, data }) => {
   
-  createUser({ variables:{input:{ userName:user.userName, firstName:user.firstName, lastName: user.lastName, password:user.password, email:user.email}}});
+
     //  if (loading) return <Text>Loading...</Text>;
       if (error) return    <Text>{`Error! ${error.message}` }</Text>;
     
-
-        let view = <View>
+   let Data= createUser({ variables:{input:{ userName:user.userName, firstName:user.firstName, lastName: user.lastName, password:user.password, email:user.email}}});
+   
+      if(data){   console.log(data.createUser.userName)
+         return (
           <Text>{`
-                  ID: ${createUser.id} 
-                  Username: ${createUser.userName} 
-                  Firstname: ${createUser.firstName} 
-                  Lastname: ${createUser.lastName} 
-                  Password: ${createUser.password} 
-                  Email: ${createUser.email}`
-                }</Text>
-        </View>
-        
-        return view;
+                  ID: ${data.createUser.id} 
+                  Username: ${data.createUser.userName} 
+                  Firstname: ${data.createUser.firstName} 
+                  Lastname: ${data.createUser.lastName} 
+                  Password: ${data.createUser.password} 
+                  Email: ${data.createUser.email}`
+         }</Text>);}
+   
+
+                let   view =  
+                    <Text>{`
+                    ${user.userName} not created
+                      
+                         `
+                    }</Text>
+               
+                
+               return  view;
+      
       
     }}
   </Mutation>
