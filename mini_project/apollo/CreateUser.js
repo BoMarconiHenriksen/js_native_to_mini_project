@@ -36,7 +36,7 @@ const CreateUser = ({ user}) => (
   
   createUser({ variables:{input:{ userName:user.userName, firstName:user.firstName, lastName: user.lastName, password:user.password, email:user.email}}});
     //  if (loading) return <Text>Loading...</Text>;
-      if (error) return `Error! ${error.message}`;
+      if (error) return    <Text>{`Error! ${error.message}` }</Text>;
     
 
         let view = <View>

@@ -3,6 +3,7 @@ import { Query, Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { Text, View } from 'react-native';
 import users from './Users';
+import { asyncify } from "async";
 // https://codesandbox.io/s/v3mn68xxvy
 // https://www.apollographql.com/docs/react/essentials/mutations.html#basic
 
@@ -21,30 +22,44 @@ mutation UpdateUser($id:ID!, $userName:String,  $firstName:String,  $lastName:St
 }
 `;
 
-const UpdateUser = ({id, user }) =>(
+const UpdateUser =({id, user }) =>(
   
     <Mutation
       mutation={Update_User}
       variables={{ id:id, [Object.keys(user)[0]]:Object.values(user)[0]}}
     >
 
-      {(updateUser, { loading, error, data }) => {
+      {(updateUser, {  error, data }) => {
   
-        updateUser({ variables: { input: { id:id, [Object.keys(user)[0]]:Object.values(user)[0]}}});
-        // if (loading) return <Text>Loading...</Text>;
-        if (error) return `Error! ${error.message}`;
 
-        let   view = <View>
+      
+       // if (loading) return <Text>Loading...</Text>;
+        if (error) return <Text>{`Error! ${error.message}`}</Text>;
+       
+     if(data)return <Text>{`
+     Opdateret ID: ${data.updateUser.id}
+     Username: ${data.updateUser.userName} 
+                  Firstname: ${data.updateUser.firstName} 
+                  Lastname: ${data.updateUser.lastName} 
+                  Password: ${data.updateUser.password} 
+                  Email: ${data.updateUser.email}  
+   
+      `
+ }</Text>;
+ 
+        let Data =  updateUser({ variables: { input: { id:id, [Object.keys(user)[0]]:Object.values(user)[0]}}});
+        
+
+        let   view =  <View>
             <Text>{`
                 Opdateret ID: ${id}  
-                 ${Object.keys(user)[0]} : ${Object.values(user)[0]}
-                  
+              
                  `
             }</Text>
           </View>
         
-        return view;
-
+       return  view;
+          
       }}</Mutation>
     
 ) 

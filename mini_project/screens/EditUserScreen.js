@@ -22,7 +22,7 @@ export default class EditUserScreen extends React.Component {
 
     render() {
 
-        return (
+        return  (
             <ScrollView>
 
                 <View style={styles.title}>
