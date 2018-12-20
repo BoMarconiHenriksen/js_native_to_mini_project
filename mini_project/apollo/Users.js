@@ -21,7 +21,7 @@ let getAllusersQuery = gql`
 const Users = () => (
   <Query query={getAllusersQuery} >
     
-    {({ loading, error, data }) => {
+    {( { loading, error, data }) => {
       if (loading) return <Text>Loading...</Text>;
       if (error) return `Error! ${error.message}`;
 

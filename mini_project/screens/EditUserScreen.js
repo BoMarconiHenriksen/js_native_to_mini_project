@@ -10,7 +10,6 @@ export default class EditUserScreen extends React.Component {
         this.state = {
           userName: null,
           id: null,
-          user: {userName: null, firstName: null, lastName: null, password: null, email: null}
         };
     
       };
@@ -44,53 +43,12 @@ export default class EditUserScreen extends React.Component {
                     <DeleteUser id={this.state.id}/>
                 }
 
-                {/* Create user input and button. */}
-                <Text>Create User</Text>
-                <TextInput 
-                style={styles.textinput} 
-                onChangeText={(username) => _inputUsername = username}
-                placeholder='Enter user name'
-                />
-                
-                <TextInput 
-                style={styles.textinput} 
-                onChangeText={(firstname) => _inputFirstname = firstname}
-                placeholder='Enter first name'
-                />
-
-                <TextInput 
-                style={styles.textinput} 
-                onChangeText={(lastname) => _inputLastname = lastname}
-                placeholder='Enter last name'
-                />
-
-                <TextInput 
-                style={styles.textinput} 
-                onChangeText={(password) => _inputPassword = password}
-                placeholder='Password'
-                />
-
-                <TextInput 
-                style={styles.textinput} 
-                onChangeText={(email) => _inputEmail = email}
-                placeholder='Email'
-                />
-
-                <Button onPress={ () => this.setState({
-                    user: {
-                        userName: _inputUsername, 
-                        firstName: _inputFirstname,
-                        lastName: _inputLastname,
-                        password: _inputPassword,
-                        email: _inputEmail }
-                })} 
-                title="Create User"
-                /> 
+                <CreateUser />
                 
                 {/* Show the result of CreateUser component. */}
-                {this.state.user.email != null &&
+                {/* {this.state.user.email != null &&
                     <CreateUser user={ this.state.user }/>
-                }
+                } */}
                 
             </ScrollView>
         );
