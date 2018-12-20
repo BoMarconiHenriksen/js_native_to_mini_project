@@ -23,13 +23,13 @@ const CreateUser = ({ user}) => (
   <Mutation 
     mutation={createUserQuery} 
    variables={{userName: user.userName, firstName:user.firstName, lastName:user.lastName, password:user.password, email:user.email }}
-    // update={(cache, { data: {user} }) => {
-    //     const { allUsers } = cache.readQuery({ query: users.getAllusersQuery });
-    //     cache.writeQuery({
-    //         query: users.getAllusersQuery,
-    //         data: { allUsers: allUsers.concat([userName, firstName, lastName, password, email]) }
-    //     })
-    // }}
+/*     update={(cache, { data: {user} }) => {
+        const { allUsers } = cache.readQuery({ query: users.getAllusersQuery });
+        cache.writeQuery({
+            query: users.getAllusersQuery,
+            data: { allUsers: allUsers.concat([userName, firstName, lastName, password, email]) }
+        })
+    }} */
   >
     
     {(createUser,{ error, data }) => {
@@ -40,7 +40,7 @@ const CreateUser = ({ user}) => (
     
    let Data= createUser({ variables:{input:{ userName:user.userName, firstName:user.firstName, lastName: user.lastName, password:user.password, email:user.email}}});
    
-      if(data){   console.log(data.createUser.userName)
+      if(data){   
          return (
           <Text>{`
                   ID: ${data.createUser.id} 

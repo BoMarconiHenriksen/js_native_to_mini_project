@@ -20,6 +20,8 @@ export default class EditUserScreen extends React.Component {
 
     };
 
+
+ 
     render() {
 
         return  (
@@ -139,9 +141,24 @@ export default class EditUserScreen extends React.Component {
 
                 {/*     Show the result of UpdateUser component. */}
                 {this.state.updateBoo ==true &&
-                    <UpdateUser id={this.state.userToUpdate} user={this.state.userupd} />
+                    <UpdateUser id={this.state.userToUpdate} user={this.state.userupd} /> 
+             
                 }
-
+  <Button onPress={() => {
+                    this.setState({
+                        updateBoo: false,
+                        _inputUpdate : null,
+                        userName: null,
+                        id: null,
+                        userToUpdate: null,
+                        user: { userName: null, firstName: null, lastName: null, password: null, email: null, job: { type: null, company: null, companyUrl: null } },
+                        userupd: { userName: null, firstName: null, lastName: null, password: null, email: null, job: { type: null, company: null, companyUrl: null } },
+                        updatekey: null
+                      
+                    })
+                }}
+                    title="Refresh"
+                />
             </ScrollView>
         );
     };
