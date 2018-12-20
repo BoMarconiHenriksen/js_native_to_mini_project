@@ -31,7 +31,6 @@ const CreateUser = ({ user }) => (
   //     })
   // }}
   >
-
     {(createUser, { error, data }) => {
 
 
