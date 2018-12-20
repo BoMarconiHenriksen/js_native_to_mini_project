@@ -1,8 +1,8 @@
 import React from 'react';
 import { Platform, View, Text, TextInput, Button, StyleSheet, ScrollView, ActivityIndicator, } from 'react-native';
 import { Constants, Location, Permissions, MapView, Marker} from 'expo';
-const URL = 'https://miniprojectfsjsbebop.herokuapp.com/api/';
 
+const URL = 'https://miniprojectfsjsbebop.herokuapp.com/api/';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -20,7 +20,8 @@ export default class LoginScreen extends React.Component {
     };
 
   };
-  // Remove header.
+
+   // Remove header.
   static navigationOptions = {
     header: null,
   };
@@ -103,8 +104,8 @@ export default class LoginScreen extends React.Component {
           this.setState({ message: " ", markers: responseJson.friends })
           this.setState({
             region: {
-              latitude: this.state.latitude, longitude: this.state.longitude, latitudeDelta: 0.00922 * (distance * 1.25) * 0.001,
-              longitudeDelta: 0.00421 * (distance * 1.25) * 0.001
+              latitude: this.state.latitude, longitude: this.state.longitude, latitudeDelta: 0.00922 * (distance * 1.25) ,
+              longitudeDelta: 0.00421 * (distance * 1.25)
             }
           })
           this.setState({ isLoggedIn: true });
@@ -120,6 +121,7 @@ export default class LoginScreen extends React.Component {
 
 
   render() {
+    
     let velcomeText = "";
     if (this.state.isLoggedIn === false) {
       velcomeText = 'Login and find your friends.'
@@ -135,7 +137,7 @@ export default class LoginScreen extends React.Component {
 
           <TextInput style={styles.textinput} placeholder='Enter user name' onChangeText={(username) => this.setState({ userName: username })} value={this.state.userName} />
           <TextInput style={styles.textinput} placeholder='Enter password' onChangeText={(password) => this.setState({ password: password })} value={this.state.password} />
-          <TextInput type='number' style={styles.textinput} keyboardType={'numeric'} placeholder='10' onChangeText={(distance) => this.setState({ distance: Number(distance * 1000) })} value={this.state.distance} />
+          <TextInput type='number' style={styles.textinput} keyboardType={'numeric'} placeholder='10' onChangeText={(distance) => this.setState({ distance: Number(distance ) })} value={this.state.distance} />
 
           <Button title="submit" onPress={() => this.login(this.state.userName, this.state.password, this.state.latitude, this.state.longitude, this.state.distance)} />
         </View>
@@ -159,7 +161,6 @@ export default class LoginScreen extends React.Component {
             {this.state.message}
           </Text>
 
-
         {/* Show the map and the user and his friends on a map. */}
         {this.state.latitude != null &&
           < MapView key={this.state.region + Date()}
@@ -181,8 +182,14 @@ export default class LoginScreen extends React.Component {
               pinColor={'magenta'}
             />
           </ MapView>
+
+          
         }
-      </ScrollView>
+
+     </ScrollView>
+
+      
+      
     );
   };
 };
