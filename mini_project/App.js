@@ -1,17 +1,27 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import Tabs from './navigation/TabNavigator';
+import TabNavigator from './navigation/TabNavigator';
+import { ApolloProvider } from "react-apollo";
+import ApolloClient from "apollo-boost";
 
-
+ // Client for Apollo.
+const client = new ApolloClient({
+    uri: "https://miniprojectfsjsbebop.herokuapp.com/graphql"
+  });
 export default class App extends React.Component {
  
 
   render() {
 
       return (
+        <ApolloProvider client={client}>
+
         <View style={styles.container}>
-          <Tabs />
+          <TabNavigator />
         </View>
+        
+        </ApolloProvider>
+        
       );
     }
   }
@@ -24,8 +34,3 @@ const styles = StyleSheet.create({
     backgroundColor: '#F0F7D4',
   },
 });
-
-
-
-/* */
-
