@@ -1,15 +1,15 @@
 {
   "expo": {
     "name": "FriendFinderBB",
-    "description": "You can find your loggedin friends position on a map within a distance you choose.",
+    "description": "You can find your loggedin friends position on a map within a distance you choose. ",
     "slug": "FriendFinderBB",
     "privacy": "public",
     "sdkVersion": "30.0.0",
     "platforms": [
-      "ios",
-      "android"
+      "android",
+      "ios"
     ],
-    "version": "1.0.0",
+    "version": "2.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -18,14 +18,17 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 10000
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.BenedikteEva.FriendFinderBB"
+    },
+    "android": {
+      "package": "com.BenedikteEva.FriendFinderBB"
     }
-   
   }
 }
