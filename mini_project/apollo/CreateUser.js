@@ -17,19 +17,19 @@ mutation CreateUser($userName: String!, $firstName: String!, $lastName: String!,
     email
   }
 }
-`; 
+`;
 
-const CreateUser = ({ user}) => (
-  <Mutation 
-    mutation={createUserQuery} 
-   variables={{userName: user.userName, firstName:user.firstName, lastName:user.lastName, password:user.password, email:user.email }}
-/*     update={(cache, { data: {user} }) => {
-        const { allUsers } = cache.readQuery({ query: users.getAllusersQuery });
-        cache.writeQuery({
-            query: users.getAllusersQuery,
-            data: { allUsers: allUsers.concat([userName, firstName, lastName, password, email]) }
-        })
-    }} */
+const CreateUser = ({ user }) => (
+  <Mutation
+    mutation={createUserQuery}
+    variables={{ userName: user.userName, firstName: user.firstName, lastName: user.lastName, password: user.password, email: user.email }}
+  // update={(cache, { data: {user} }) => {
+  //     const { allUsers } = cache.readQuery({ query: users.getAllusersQuery });
+  //     cache.writeQuery({
+  //         query: users.getAllusersQuery,
+  //         data: { allUsers: allUsers.concat([userName, firstName, lastName, password, email]) }
+  //     })
+  // }}
   >
     
     {(createUser,{ loading, error, data }) => {
@@ -52,20 +52,21 @@ const CreateUser = ({ user}) => (
                   Lastname: ${data.createUser.lastName} 
                   Password: ${data.createUser.password} 
                   Email: ${data.createUser.email}`
-         }</Text>);}
-   
+          }</Text>);
+      }
 
-                let   view =  
-                    <Text>{`
-                    ${user.userName} not created
-                      
-                         `
-                    }</Text>
-               
-                
-               return  view;
-      
-      
+
+      let view =
+        <Text>{`
+         ${user.userName} not created
+         
+              `
+        }</Text>
+
+
+      return view;
+
+
     }}
   </Mutation>
 );
