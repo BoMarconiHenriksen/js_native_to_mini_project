@@ -20,7 +20,10 @@ export default class EditUserScreen extends React.Component {
 
     };
 
-
+    static navigationOptions = {
+        
+        title: "Working with Apollo and GraphQL",
+      };
  
     render() {
 
@@ -28,12 +31,11 @@ export default class EditUserScreen extends React.Component {
             <ScrollView>
 
                 <View style={styles.title}>
-                    <Text>Working with Apollo and GraphQL</Text>
-                    <Text>Get User By Username</Text>
+                    <Text style={styles.featureHead}>Get User By Username</Text>
                 </View>
 
                 {/* getUserByName input and button. */}
-                <TextInput style={styles.textinput} onChangeText={(username) => _inputName = username} />
+                <TextInput style={styles.textinput} onChangeText={(username) => _inputName = username}placeholder='Enter user name' />
                 <Button onPress={() => this.setState({ userName: _inputName })} title="Get a user by username" />
 
                 {/* Show the result of GetUserByName component. */}
@@ -42,8 +44,8 @@ export default class EditUserScreen extends React.Component {
                 }
 
                 {/* Delete user input and button. */}
-                <Text>Delete User</Text>
-                <TextInput style={styles.textinput} onChangeText={(id) => _inputId = id} />
+                <Text style={styles.featureHead}>Delete User</Text>
+                <TextInput style={styles.textinput} onChangeText={(id) => _inputId = id} placeholder="Enter id"/>
                 <Button onPress={() => this.setState({ id: _inputId })} title="Delete a user" />
 
                 {/* Show the result of GetUserByName component. */}
@@ -52,7 +54,7 @@ export default class EditUserScreen extends React.Component {
                 }
 
                 {/* Create user input and button. */}
-                <Text>Create User</Text>
+                <Text style={styles.featureHead}>Create User</Text>
                 <TextInput
                     style={styles.textinput}
                     onChangeText={(username) => _inputUsername = username}
@@ -100,12 +102,12 @@ export default class EditUserScreen extends React.Component {
                     <CreateUser user={this.state.user} />
                 }
                 {/* Create user input and button. */}
-                <Text>update User</Text>
+                <Text style={styles.featureHead}>Update User </Text>
                 <TextInput
                     style={styles.textinput}
                     onChangeText={(id) => _inputUserUpdate =id}
-                    placeholder="id (id sucks)"
-                />
+                    placeholder='Enter id'
+                /> 
 
                 <Picker
                     selectedValue={this.state.updatekey}
@@ -144,6 +146,7 @@ export default class EditUserScreen extends React.Component {
                     <UpdateUser id={this.state.userToUpdate} user={this.state.userupd} /> 
              
                 }
+                <Text></Text>
   <Button onPress={() => {
                     this.setState({
                         updateBoo: false,
@@ -172,4 +175,7 @@ const styles = StyleSheet.create({
     textinput: {
         padding: 5, width: 200, fontSize: 18
     },
+    featureHead:{
+        fontSize: 16
+    }
 });
