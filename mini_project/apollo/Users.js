@@ -14,7 +14,7 @@ let getAllusersQuery = gql`
     userName
     password
     email
-    job{type
+    job {type
     company
     companyUrl}
   }
@@ -28,7 +28,7 @@ const Users = () => (
       if (loading) return <Text>Loading...</Text>;
       if (error) return `Error! ${error.message}`;
 
-      return data.getUsers.map(({ id, userName, firstName, lastName, password, email,job }) => (
+      return data.getUsers.map(({ id, userName, firstName, lastName, password, email,job}) =>(
         <View key={id}>
           <Text>{`
                   ID: ${id} 

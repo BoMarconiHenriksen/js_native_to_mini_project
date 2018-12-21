@@ -22,10 +22,10 @@ export default class LoginScreen extends React.Component {
   };
 
    // Remove header.
-  static navigationOptions = {
-    header: null,
+   static navigationOptions = {
+        
+    title: "Find your friends."
   };
-
   componentWillMount() {
     if (Platform.OS === 'android' && !Constants.isDevice) {
       this.setState({
@@ -148,7 +148,7 @@ export default class LoginScreen extends React.Component {
         }
 
         {/* Show lat and long for the user. */}
-        <Text>{this.showUserPosition()}</Text>
+        <Text style={styles.showPosition}>{this.showUserPosition()}</Text>
 
         {/* isLoggingIn tracks whether logging in is in progress. */}
 
@@ -208,6 +208,11 @@ const styles = StyleSheet.create({
     fontSize: 26,
     color: "#66B032",
     textAlign: 'center',
+  },
+  showPosition: {
+    fontSize: 12,
+    
+   
   },
   viewtextinput: {
     flex: 1, alignItems: 'center', padding: 20, justifyContent: 'flex-start'

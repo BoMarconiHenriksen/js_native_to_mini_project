@@ -18,6 +18,11 @@ mutation UpdateUser($id:ID!, $userName:String,  $firstName:String,  $lastName:St
     lastName
     password
     email
+    job{
+      type
+    company
+    companyUrl
+    }
   }
 }
 `;
@@ -43,11 +48,14 @@ const UpdateUser =({id, user }) =>(
                   Lastname: ${data.updateUser.lastName} 
                   Password: ${data.updateUser.password} 
                   Email: ${data.updateUser.email}  
+                  Job - type: ${data.updateUser.job[0].type}  
+                  Job - company: ${data.updateUser.job[0].company} 
+                  Job - companyUrl: ${data.updateUser.job[0].companyUrl} 
    
       `
  }</Text>;
  
-        let Data =  updateUser({ variables: { input: { id:id, [Object.keys(user)[0]]:Object.values(user)[0]}}});
+          updateUser({ variables: { input: { id:id, [Object.keys(user)[0]]:Object.values(user)[0]}}});
         
 
         let   view =  <View>

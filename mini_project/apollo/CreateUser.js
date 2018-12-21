@@ -31,17 +31,20 @@ const CreateUser = ({ user }) => (
   //     })
   // }}
   >
-    {(createUser, { error, data }) => {
+    
+    {(createUser,{ loading, error, data }) => {
+  
 
+    if (loading) return <Text>Loading...</Text>;
+      if (error) {
+        if (error.message.includes("E11000")) return   <Text></Text>;
+        return   <Text>{`Error! ${error.message}` }</Text>;
 
-      //  if (loading) return <Text>Loading...</Text>;
-      if (error) return <Text>{`Error! ${error.message}`}</Text>;
-
-      let Data = createUser({ variables: { input: { userName: user.userName, firstName: user.firstName, lastName: user.lastName, password: user.password, email: user.email } } });
-
-      if (data) {
-        console.log(data.createUser.userName)
-        return (
+      }
+   let Data= createUser({ variables:{input:{ userName:user.userName, firstName:user.firstName, lastName: user.lastName, password:user.password, email:user.email}}});
+   
+      if(data){   
+         return (
           <Text>{`
                   ID: ${data.createUser.id} 
                   Username: ${data.createUser.userName} 
