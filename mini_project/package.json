@@ -6,13 +6,15 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "dependencies": {
     "@expo/vector-icons": "^8.0.0",
     "apollo-boost": "^0.1.22",
     "expo": "^31.0.0",
-    "expo-cli": "^2.6.14",
+    "expo-cli": "^2.13.0",
     "expo-server-sdk": "^3.0.1",
     "graphql": "^14.0.2",
     "native-base": "^2.8.1",
@@ -24,6 +26,8 @@
     "react-native-numeric-input": "^1.5.1",
     "react-native-vector-icons": "^6.0.2",
     "react-navigation": "^2.18.2",
-    "ws": "^6.1.2"
-  }
+    "ws": "^6.1.2",
+    "snyk": "^1.316.1"
+  },
+  "snyk": true
 }
