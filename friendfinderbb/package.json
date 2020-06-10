@@ -1,6 +1,12 @@
 {
   "dependencies": {
     "expo-cli": "^2.2.6",
-    "global": "^4.3.2"
-  }
+    "global": "^4.3.2",
+    "snyk": "^1.339.0"
+  },
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
+  },
+  "snyk": true
 }
