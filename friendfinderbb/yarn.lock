@@ -204,6 +204,11 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
   integrity sha512-ONhaKPIufzzrlNbqtWFFd+jlnemX6lJAgq9ZeiZtS7I1PIf/la7CW4m83rTXRnVnsMbW2k56pGYu7AUFJD9Pow==
 
+"@snyk/protect@^1.689.0":
+  version "1.689.0"
+  resolved "https://registry.yarnpkg.com/@snyk/protect/-/protect-1.689.0.tgz#5af2bd4f5911e7f6d335e841e6dec28234fe44dc"
+  integrity sha512-JpELnptOu/DqDtwgs0CMhAcPbpv9eSqHwpucFZRy8wy/L9AcGi8azAXso12JZ/ZWxIBFgZjWwj67D+Q04qOf2A==
+
 "@types/events@*":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-1.2.0.tgz#81a6731ce4df43619e5c8c945383b3e62a89ea86"
