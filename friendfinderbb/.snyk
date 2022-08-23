@@ -1,0 +1,29 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - expo-cli > @expo/json-file > lodash:
+        patched: '2022-08-23T02:29:16.604Z'
+    - expo-cli > lodash:
+        patched: '2022-08-23T02:29:16.604Z'
+    - expo-cli > inquirer > lodash:
+        patched: '2022-08-23T02:29:16.604Z'
+    - expo-cli > xdl > lodash:
+        patched: '2022-08-23T02:29:16.604Z'
+    - expo-cli > xdl > @expo/schemer > lodash:
+        patched: '2022-08-23T02:29:16.604Z'
+    - expo-cli > xdl > inquirer > lodash:
+        patched: '2022-08-23T02:29:16.604Z'
+    - expo-cli > xdl > analytics-node > lodash:
+        patched: '2022-08-23T02:29:16.604Z'
+    - expo-cli > xdl > redux > lodash:
+        patched: '2022-08-23T02:29:16.604Z'
+    - expo-cli > xdl > @expo/ngrok > logfmt > lodash:
+        patched: '2022-08-23T02:29:16.604Z'
+    - expo-cli > xdl > request-promise-native > request-promise-core > lodash:
+        patched: '2022-08-23T02:29:16.604Z'
+  SNYK-JS-TREEKILL-536781:
+    - expo-cli > xdl > tree-kill:
+        patched: '2022-08-23T02:29:16.604Z'
