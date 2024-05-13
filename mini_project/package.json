@@ -18,7 +18,7 @@
     "native-base": "^2.8.1",
     "react": "16.3.1",
     "react-apollo": "^2.3.2",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
+    "react-native": "0.69.12",
     "react-native-base": "^1.1.0",
     "react-native-elements": "^0.19.1",
     "react-native-numeric-input": "^1.5.1",
